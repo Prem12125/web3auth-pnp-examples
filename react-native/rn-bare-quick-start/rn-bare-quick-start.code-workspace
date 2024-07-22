@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "rn-bare-quick-start",
+			"path": "."
+		},
+		{
+			"name": "store",
+			"path": "../../../../react/userkyc/store"
+		}
+	],
+	"settings": {}
+}

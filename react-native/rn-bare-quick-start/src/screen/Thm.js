@@ -1,0 +1,8 @@
+
+export default {
+    PRIMARY_COLOR: '#499783',
+    SECONDARY_COLOR: '#687E8D',
+    THIRD_COLOR: '#128C7E',
+    TEXT_COLOR: '#858D6E',
+    LIGHTGREY: '#D3D3D3',
+  };

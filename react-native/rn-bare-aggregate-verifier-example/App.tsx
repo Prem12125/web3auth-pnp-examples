@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Button,
+  TextInput,
   ScrollView,
   Dimensions,
 } from 'react-native';
@@ -13,7 +14,7 @@ import Web3Auth, {
   OPENLOGIN_NETWORK,
   ChainNamespace,
 } from '@web3auth/react-native-sdk';
-import {EthereumPrivateKeyProvider} from '@web3auth/ethereum-provider';
+import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
 
 // import RPC from './web3RPC'; // for using web3.js
 // import RPC from "./viemRPC"; // for using viem
@@ -83,6 +84,16 @@ const web3auth = new Web3Auth(WebBrowser, EncryptedStorage, {
         isVerifierIdCaseSensitive: false,
       },
     },
+    auth0emailpassword: {
+      verifier: 'your-email-password-verifier',
+      typeOfLogin: 'email_password',
+      clientId: 'YOUR_AUTH0_CLIENT_ID',
+      jwtParameters: {
+        domain: 'https://YOUR_AUTH0_DOMAIN',
+        verifierIdField: 'email',
+        isVerifierIdCaseSensitive: false,
+      },
+    },
   },
 });
 
@@ -90,6 +101,8 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [provider, setProvider] = useState<any>(null);
   const [console, setConsole] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   useEffect(() => {
     const init = async () => {
@@ -118,6 +131,30 @@ export default function App() {
       if (web3auth.privKey) {
         await ethereumPrivateKeyProvider.setupProvider(web3auth.privKey);
         // IMP END - Login
+        setProvider(ethereumPrivateKeyProvider);
+        uiConsole('Logged In');
+        setLoggedIn(true);
+      }
+    } catch (error) {
+      uiConsole('error:', error);
+    }
+  };
+
+  const emailPasswordLogin = async () => {
+    try {
+      setConsole('Logging in with email and password');
+      await web3auth.login({
+        loginProvider: 'auth0emailpassword',
+        extraLoginOptions: {
+          domain: 'https://YOUR_AUTH0_DOMAIN',
+          email,
+          password,
+        },
+      });
+
+      uiConsole('Logged In');
+      if (web3auth.privKey) {
+        await ethereumPrivateKeyProvider.setupProvider(web3auth.privKey);
         setProvider(ethereumPrivateKeyProvider);
         uiConsole('Logged In');
         setLoggedIn(true);
@@ -227,85 +264,7 @@ export default function App() {
 
     const address = await rpc.getAccounts();
 
-    // const params = [
-    //   {
-    //     challenge: 'Hello World',
-    //     address,
-    //   },
-    //   null,
-    // ];
     const params = ['Hello World', address];
-    // const params = [{ }];
-    // params.push('Hello World');
-    // params.push(address);
-
-    // const params = [
-    //   address,
-    //   {
-    //     types: {
-    //       EIP712Domain: [
-    //         {
-    //           name: 'name',
-    //           type: 'string',
-    //         },
-    //         {
-    //           name: 'version',
-    //           type: 'string',
-    //         },
-    //         {
-    //           name: 'chainId',
-    //           type: 'uint256',
-    //         },
-    //         {
-    //           name: 'verifyingContract',
-    //           type: 'address',
-    //         },
-    //       ],
-    //       Person: [
-    //         {
-    //           name: 'name',
-    //           type: 'string',
-    //         },
-    //         {
-    //           name: 'wallet',
-    //           type: 'address',
-    //         },
-    //       ],
-    //       Mail: [
-    //         {
-    //           name: 'from',
-    //           type: 'Person',
-    //         },
-    //         {
-    //           name: 'to',
-    //           type: 'Person',
-    //         },
-    //         {
-    //           name: 'contents',
-    //           type: 'string',
-    //         },
-    //       ],
-    //     },
-    //     primaryType: 'Mail',
-    //     domain: {
-    //       name: 'Ether Mail',
-    //       version: '1',
-    //       chainId: chainConfig.chainId,
-    //       verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-    //     },
-    //     message: {
-    //       from: {
-    //         name: 'Cow',
-    //         wallet: address,
-    //       },
-    //       to: {
-    //         name: 'Bob',
-    //         wallet: '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
-    //       },
-    //       contents: 'Hello, Bob!',
-    //     },
-    //   },
-    // ];
 
     setConsole('Request Signature');
     const res = await web3auth.request(chainConfig, 'personal_sign', params);
@@ -338,6 +297,20 @@ export default function App() {
 
   const unloggedInView = (
     <View style={styles.buttonArea}>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        onChangeText={setEmail}
+        value={email}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry
+        onChangeText={setPassword}
+        value={password}
+      />
+      <Button title="Login with Email and Password" onPress={emailPasswordLogin} />
       <Button title="Login with Google" onPress={() => login('google')} />
       <Button
         title="Login with Auth0 Email Passwordless"
@@ -393,5 +366,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     paddingBottom: 30,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
+    width: Dimensions.get('window').width - 60,
   },
 });
