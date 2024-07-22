@@ -60,7 +60,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                       ? isFocused
                         ? 'eye'
                         : 'eye-outline'
-                      : route.name === 'ResponsiveUi'
+                      : route.name === 'Profile'
                         ? isFocused
                           ? 'settings'
                           : 'settings-outline'
@@ -102,7 +102,7 @@ const BottomTabNavigator = () => {
             </View>
           )
         }} />
-      <Tab.Screen name="ResponsiveUi" component={ResponsiveUi} options={{headerShown:false}} />
+      <Tab.Screen name="Profile" component={ResponsiveUi} options={{headerShown:false}} />
     </Tab.Navigator>
   );
 };

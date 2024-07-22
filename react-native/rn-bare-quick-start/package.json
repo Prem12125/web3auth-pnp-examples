@@ -1,5 +1,5 @@
 {
-  "name": "web3authrnexample",
+  "name": "projextX",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -12,7 +12,11 @@
   "dependencies": {
     "@ethersproject/shims": "^5.7.0",
     "@react-native-async-storage/async-storage": "^1.24.0",
+    "@react-native-firebase/app": "^20.3.0",
+    "@react-native-firebase/firestore": "^20.3.0",
+    "@react-native-masked-view/masked-view": "^0.3.1",
     "@react-navigation/bottom-tabs": "^6.6.1",
+    "@react-navigation/drawer": "^6.7.2",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/stack": "^6.4.1",
     "@reduxjs/toolkit": "^2.2.6",

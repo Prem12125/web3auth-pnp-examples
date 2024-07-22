@@ -89,39 +89,7 @@ const ResponsiveUi = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.rectangleView}>
-       <View style={styles.headingContainer}>
-          <Image
-            source={require('../screen/logo.png')}
-            style={styles.image}
-            resizeMode="cover"
-          />
-          <View style={styles.searchSection}>
-            <TextInput
-              style={styles.input}
-              placeholder="Search"
-              // onChangeText={searchString => {
-              //   this.setState({searchString});
-              // }}
-              placeholderTextColor={'rgba(53, 53, 53, 0.5)'}
-            />
-            <AntDesign
-              style={styles.searchIcon}
-              name="search1"
-              size={20}
-              color="#000"
-            />
-          </View>
-          <AntDesign
-            name="scan1"
-            size={24}
-            style={{margin: 5}}
-            color={'#000'}
-          />
-          <Feather name="bell" size={24} style={{margin: 5}} color={'#000'} />
-          <Entypo name="wallet" size={24} style={{margin: 5}} color={'#000'} />
-        </View>
-        </View>
+      
       <View style={styles.sliderContainer}>
         <ScrollView
           ref={scrollViewRef}
@@ -200,8 +168,8 @@ const ResponsiveUi = () => {
 
 const styles = StyleSheet.create({
   image: {
-      width: 40,
-      height: 40,
+      width: "100%",
+      height: 200,
     },
   rectangleView: {
     width: '100%',
@@ -235,7 +203,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   sliderContainer: {
-    height: height / 6,
+    // paddingTop:40,
+    marginTop:40,
+    height: height / 5,
   },
   slider: {
     alignItems: 'center',

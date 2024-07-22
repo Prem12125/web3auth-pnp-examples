@@ -27,10 +27,10 @@
   import { useDispatch } from 'react-redux';
   import { loginSuccess } from '../store/loginSlice';
   
-  const scheme = 'web3authrnexample';
+  const scheme = 'projectx';
   const redirectUrl = `${scheme}://openlogin`;
   
-  const clientId = 'BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ'; // replace with your actual clientId
+  const clientId = 'BHHDik5lqQ3psVh6I474DxaARw2vFbraf5NOz6Y2Y_RDHglXoboaMmgXBCwVdKZpXpbVJ7rx35KjYp5swq93ngc'; // replace with your actual clientId
   
   const chainConfig = {
     chainNamespace: ChainNamespace.EIP155,
@@ -53,7 +53,7 @@
   const web3auth = new Web3Auth(WebBrowser, EncryptedStorage, {
     clientId,
     redirectUrl,
-    network: OPENLOGIN_NETWORK.SAPPHIRE_MAINNET,
+    network: OPENLOGIN_NETWORK.SAPPHIRE_DEVNET,
   });
   
   export default function LoginScreen() {

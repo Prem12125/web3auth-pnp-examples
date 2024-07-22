@@ -6,6 +6,7 @@ import loginReducer from './loginSlice'; // Adjust the import path accordingly
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  timeout: 10000,
 };
 
 const rootReducer = combineReducers({
