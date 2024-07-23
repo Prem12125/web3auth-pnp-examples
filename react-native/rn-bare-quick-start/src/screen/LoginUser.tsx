@@ -11,6 +11,7 @@
     TouchableOpacity,
     StatusBar,
   } from 'react-native';
+  
   import '@ethersproject/shims';
   import { ethers } from 'ethers';
   import * as WebBrowser from '@toruslabs/react-native-web-browser';

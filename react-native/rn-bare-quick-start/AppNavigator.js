@@ -7,6 +7,7 @@ import LoginScreen from './src/screen/LoginScreen';
 import SignupScreen from './src/screen/SignupScreen';
 import LoginHome from './src/screen/LoginUser'
 import ConsoleScreen from './src/screen/ConsoleScreen';
+import UserProfile from './src/user/UserProfile';
 
 
 const Stack = createStackNavigator();
@@ -41,7 +42,11 @@ const AppNavigator = () => {
         component={ConsoleScreen} 
         options={{ headerShown: false }} 
       />
-  
+      <Stack.Screen
+      name='UserProfile'
+      component={UserProfile}
+      options={{headerShown:false}}
+/>  
       <Stack.Screen 
         name="Main" 
         component={BottomTabNavigator} 

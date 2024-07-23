@@ -7,6 +7,7 @@ import ResumeFormScreen from './src/screen/ResumeFormScreen';
 import ResumePreviewScreen from './src/screen/ResumePreviewScreen';
 import ResponsiveUi from './src/screen/ResponsiveUi';
 import { View, StyleSheet, Text, TextInput } from 'react-native';
+import UserProfile from './src/user/UserProfile';
 
 const Tab = createBottomTabNavigator();
 
@@ -62,8 +63,8 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                         : 'eye-outline'
                       : route.name === 'Profile'
                         ? isFocused
-                          ? 'settings'
-                          : 'settings-outline'
+                          ? 'person'
+                          : 'person-outline'
                         : 'circle'
               }
               size={24}
@@ -102,7 +103,7 @@ const BottomTabNavigator = () => {
             </View>
           )
         }} />
-      <Tab.Screen name="Profile" component={ResponsiveUi} options={{headerShown:false}} />
+      <Tab.Screen name="Profile" component={UserProfile} options={{headerShown:false}} />
     </Tab.Navigator>
   );
 };
