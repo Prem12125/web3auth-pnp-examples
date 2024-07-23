@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
-import {ImageBackground, StyleSheet, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
-import {Image, Text, View} from 'react-native-ui-lib';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useNavigation} from '@react-navigation/native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import React, { useEffect, useState } from 'react';
+import { ImageBackground, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Platform, TextInput } from 'react-native';
+import { Image, Text, View } from 'react-native-ui-lib';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAccounts,  signMessage, logoutSuccess } from '../store/loginSlice';
+import { getAccounts, logoutSuccess, setUserInfo } from '../store/loginSlice';
+import { launchImageLibrary } from 'react-native-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import '@ethersproject/shims';
-import { ethers } from 'ethers';
 import * as WebBrowser from '@toruslabs/react-native-web-browser';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import Web3Auth, {
@@ -47,95 +48,128 @@ const web3auth = new Web3Auth(WebBrowser, EncryptedStorage, {
   network: OPENLOGIN_NETWORK.SAPPHIRE_DEVNET,
 });
 
-
-
 const UserProfile = () => {
   const navigation = useNavigation();
   const screenHeight = Dimensions.get('window').height;
-  const { userInfo, accounts,  signedMessage } = useSelector(state => state.login);
+  const { userInfo, accounts } = useSelector(state => state.login);
   const dispatch = useDispatch();
+  const [profileImage, setProfileImage] = useState(null);
+  const [name, setName] = useState(userInfo?.name || '');
+  const [isEditingName, setIsEditingName] = useState(false);
 
   useEffect(() => {
     const init = async () => {
-      console.log("prem checking log in ");
+      console.log('Initializing Web3Auth...');
       await web3auth.init();
+      console.log('Web3Auth initialized');
       handleGetAccounts();
-      handleSignMessage();
-      // if (web3auth.privKey) {
-      //   await ethereumPrivateKeyProvider.setupProvider(web3auth.privKey);
-
-      //   setLoggedIn(true);
-      //   dispatch(loginSuccess({ userInfo: web3auth.userInfo(), privateKey: web3auth.privKey, web3auth }));
-      // }
+      loadProfileImage();
+      loadUserName();
     };
     init();
   }, []);
 
- 
-
-  const handleGetAccounts = () => {
-    dispatch(getAccounts());
+  const loadProfileImage = async () => {
+    const image = await AsyncStorage.getItem('profileImage');
+    if (image) {
+      setProfileImage({ uri: image });
+    }
   };
 
-  const handleSignMessage = () => {
-    dispatch(signMessage());
+  const handleImagePicker = async () => {
+    try {
+      const response = await launchImageLibrary({ mediaType: 'photo', quality: 1 });
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorMessage) {
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else if (response.assets && response.assets.length > 0) {
+        const source = { uri: response.assets[0].uri };
+        setProfileImage(source);
+        await AsyncStorage.setItem('profileImage', response.assets[0].uri);
+      }
+    } catch (error) {
+      console.log('Error picking image: ', error);
+    }
+  };
+
+  const handleGetAccounts = () => {
+    console.log('Retrieving accounts...');
+    dispatch(getAccounts());
+    console.log('Accounts retrieved');
   };
 
   const handleLogout = async () => {
     if (!web3auth.ready) {
-      console.log('Web3auth not initialized');
+      console.log('Web3Auth not initialized');
       return;
     }
 
+    console.log('Starting logout process...');
     try {
       await web3auth.logout();
+      console.log('Web3Auth logout successful');
       dispatch(logoutSuccess());
+      console.log('Redux logout success dispatched');
       navigation.navigate('Splash');
+      console.log('Navigated to Splash screen');
     } catch (error) {
       console.error('Logout failed', error);
     }
   };
 
+  const loadUserName = async () => {
+    const storedUserName = await AsyncStorage.getItem('userName');
+    if (storedUserName) {
+      setName(storedUserName);
+    } else {
+      setName(userInfo?.name || '');
+    }
+  };
 
+  const handleSaveName = async () => {
+    setIsEditingName(false);
+    await AsyncStorage.setItem('userName', name);
+    console.log('User name saved:', name);
+  };
 
   return (
     <ImageBackground
-      source={require('../../assets/image/bg.png')} 
+      source={require('../../assets/image/bg.png')}
       style={styles.background}>
-      <View style={styles.NavBar}>
-        {/* <TouchableOpacity onPress={() => navigation.navigate('HomeTab')}>
-          <AntDesign
-            style={styles.searchIcon}
-            name="arrowleft"
-            size={25}
-            color="#9286DA"
-          />
-        </TouchableOpacity>
-        <View>
-          <Text style={styles.panVerification}>Account</Text>
-        </View>
-        <View>
-          <Image
-            source={require('../../assets/image/progress-navbar.png')}
-            style={styles.horiLine}
-            resizeMode="contain"
-          />
-        </View> */}
-      </View>
+      
+      <View style={styles.NavBar} />
       <ScrollView>
         <View style={styles.profileImageContainer}>
-          <Image
-            source={require('../../assets/image/account-user.png')}
-            style={styles.image}
-            resizeMode="contain"
-          />
+          <TouchableOpacity onPress={handleImagePicker}>
+            <Image
+              source={profileImage || require('../../assets/image/account-user.png')}
+              style={styles.image}
+              // resizeMode="contain"
+
+              resizeMode="cover"/>
+            <View style={styles.plusIconContainer}>
+              <Ionicons name="add-circle" size={30} color="#FF0000" />
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.infoContainer(screenHeight)}>
           <View style={styles.Row}>
             <View style={styles.AccountContainer}>
               <View>
                 <Text style={styles.Label}>Name</Text>
-                <Text style={styles.Info}>{userInfo?.name || 'N/A'}</Text>
+                {isEditingName ? (
+                  <TextInput
+                    style={styles.input}
+                    value={name}
+                    onChangeText={setName}
+                    onBlur={handleSaveName}
+                  />
+                ) : (
+                  <TouchableOpacity onPress={() => setIsEditingName(true)}>
+                    <Text style={styles.Info}>{name || userInfo?.name || 'N/A'}</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </View>
@@ -147,22 +181,7 @@ const UserProfile = () => {
               </View>
             </View>
           </View>
-          <View style={styles.Row}>
-            <View style={styles.AccountContainer}>
-              <View>
-                <Text style={styles.Label}>Type of Login</Text>
-                <Text style={styles.Info}>{userInfo?.typeOfLogin || 'N/A'}</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.Row}>
-            <View style={styles.AccountContainer}>
-              <View>
-                <Text style={styles.Label}>Verifier</Text>
-                <Text style={styles.Info}>{userInfo?.verifier || 'N/A'}</Text>
-              </View>
-            </View>
-          </View>
+        
           <View style={styles.Row}>
             <View style={styles.AccountContainer}>
               <View>
@@ -171,22 +190,13 @@ const UserProfile = () => {
               </View>
             </View>
           </View>
-          <View style={styles.Row}>
-            <View style={styles.AccountContainer}>
-              <View>
-                <Text style={styles.Label}>Signed Message</Text>
-                <Text style={styles.Info}>{signedMessage || 'N/A'}</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.Row}>
+         
           <View style={styles.Row}>
             <View style={styles.AccountContainerLogout}>
               <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
                 <Text style={styles.logoutButtonText}>Logout</Text>
               </TouchableOpacity>
             </View>
-          </View>
           </View>
         </View>
       </ScrollView>
@@ -219,6 +229,13 @@ const styles = StyleSheet.create({
     flexDirection: 'flex',
     marginTop: wp(5),
     alignItems: 'center',
+  },
+  plusIconContainer: {
+    position: 'absolute',
+    bottom: 0,
+    right: -10,
+    backgroundColor: '#fff',
+    borderRadius: 15,
   },
   infoContainer: (screenHeight) => ({
     backgroundColor: '#FFFFFF87',
@@ -256,9 +273,6 @@ const styles = StyleSheet.create({
   AccountContainerLogout: {
     paddingBottom: 10,
     paddingTop: 3,
-    // borderStyle: 'solid',
-    // borderColor: '#ccc',
-    // borderBottomWidth: 0.5,
     width: '100%',
   },
   Label: {
@@ -280,6 +294,13 @@ const styles = StyleSheet.create({
   horiLine: {
     height: 2,
     width: 55,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    paddingLeft: 8,
+    marginTop: wp(1),
   },
 });
 

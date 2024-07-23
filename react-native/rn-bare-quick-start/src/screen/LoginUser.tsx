@@ -64,7 +64,7 @@
     const [console1, setConsole] = useState<string>('');
     const [email, setEmail] = useState<string>('');
   
-    useEffect(() => {
+    useEffect(() =>  {
       const init = async () => {
         await web3auth.init();
         if (web3auth.privKey) {
@@ -74,7 +74,7 @@
         }
       };
       init();
-    }, []);
+    });
   
     useEffect(() => {
       if (loggedIn) {
