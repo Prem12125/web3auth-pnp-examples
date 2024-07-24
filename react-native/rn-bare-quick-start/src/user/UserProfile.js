@@ -145,8 +145,6 @@ const UserProfile = () => {
             <Image
               source={profileImage || require('../../assets/image/account-user.png')}
               style={styles.image}
-              // resizeMode="contain"
-
               resizeMode="cover"/>
             <View style={styles.plusIconContainer}>
               <Ionicons name="add-circle" size={30} color="#FF0000" />
