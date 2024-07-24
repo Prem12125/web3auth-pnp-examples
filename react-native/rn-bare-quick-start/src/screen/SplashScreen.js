@@ -1,29 +1,38 @@
-// SplashScreen.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Image, Animated, Easing } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import GradientWord from './Gradient';
-import { useSelector } from 'react-redux'; // Import useSelector hook
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const SplashScreen = () => {
   const fadeAnim = new Animated.Value(0);
   const starAnim = new Animated.Value(0);
-
-  const isLoggedIn = useSelector((state) => state.login.loggedIn); // Access login status from Redux store
-  const navigation = useNavigation(); // Get navigation object
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
-    console.log("Is Logged In: ", isLoggedIn); // Log the isLoggedIn value
+    const checkLoginStatus = async () => {
+      try {
+        const loginStatus = await AsyncStorage.getItem('loginNewUser');
+        console.log("user checking login status",loginStatus);
+        setIsLoggedIn(loginStatus === 'true');
+      } catch (error) {
+        console.error("Error fetching login status: ", error);
+      }
+    };
 
-    // Check login status and navigate accordingly
+    checkLoginStatus();
+  }, []);
+
+  useEffect(() => {
     setTimeout(() => {
       if (isLoggedIn) {
         navigation.replace('Main');
       } else {
         navigation.replace('LoginHome');
       }
-    }, 3000); // 3 seconds
+    }, 3000);
   }, [navigation, isLoggedIn]);
 
   useEffect(() => {

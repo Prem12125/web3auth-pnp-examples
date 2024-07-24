@@ -5,48 +5,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAccounts, logoutSuccess, setUserInfo } from '../store/loginSlice';
+import { getAccounts, logoutSuccess } from '../store/loginSlice';
 import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import '@ethersproject/shims';
-import * as WebBrowser from '@toruslabs/react-native-web-browser';
-import EncryptedStorage from 'react-native-encrypted-storage';
-import Web3Auth, {
-  LOGIN_PROVIDER,
-  OPENLOGIN_NETWORK,
-  ChainNamespace,
-} from '@web3auth/react-native-sdk';
-import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
-
-const scheme = 'projectx';
-const redirectUrl = `${scheme}://openlogin`;
-
-const clientId = 'BHHDik5lqQ3psVh6I474DxaARw2vFbraf5NOz6Y2Y_RDHglXoboaMmgXBCwVdKZpXpbVJ7rx35KjYp5swq93ngc'; // replace with your actual clientId
-
-const chainConfig = {
-  chainNamespace: ChainNamespace.EIP155,
-  chainId: '0xaa36a7',
-  rpcTarget: 'https://rpc.ankr.com/eth_sepolia',
-  displayName: 'Ethereum Sepolia Testnet',
-  blockExplorerUrl: 'https://sepolia.etherscan.io',
-  ticker: 'ETH',
-  tickerName: 'Ethereum',
-  decimals: 18,
-  logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
-};
-
-const ethereumPrivateKeyProvider = new EthereumPrivateKeyProvider({
-  config: {
-    chainConfig,
-  },
-});
-
-const web3auth = new Web3Auth(WebBrowser, EncryptedStorage, {
-  clientId,
-  redirectUrl,
-  network: OPENLOGIN_NETWORK.SAPPHIRE_DEVNET,
-});
+import { useWeb3Auth } from '../providers/Web3AuthProvider'; // Adjust the import path accordingly
 
 const UserProfile = () => {
   const navigation = useNavigation();
@@ -56,6 +19,7 @@ const UserProfile = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [name, setName] = useState(userInfo?.name || '');
   const [isEditingName, setIsEditingName] = useState(false);
+  const { web3auth, setWeb3Auth } = useWeb3Auth();
 
   useEffect(() => {
     const init = async () => {
@@ -67,7 +31,7 @@ const UserProfile = () => {
       loadUserName();
     };
     init();
-  }, []);
+  }, [web3auth]);
 
   const loadProfileImage = async () => {
     const image = await AsyncStorage.getItem('profileImage');
@@ -110,7 +74,12 @@ const UserProfile = () => {
       await web3auth.logout();
       console.log('Web3Auth logout successful');
       dispatch(logoutSuccess());
+      setWeb3Auth(null);
       console.log('Redux logout success dispatched');
+      await AsyncStorage.setItem('userName', '');
+      await AsyncStorage.setItem('profileImage', '');
+
+
       navigation.navigate('Splash');
       console.log('Navigated to Splash screen');
     } catch (error) {
@@ -255,11 +224,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  panVerification: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: '#000',
-  },
   AccountContainer: {
     paddingBottom: 10,
     paddingTop: 3,
@@ -288,10 +252,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-  },
-  horiLine: {
-    height: 2,
-    width: 55,
   },
   input: {
     height: 40,
