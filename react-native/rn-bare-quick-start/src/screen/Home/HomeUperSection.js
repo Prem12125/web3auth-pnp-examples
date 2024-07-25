@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingHorizontal: 20,
     marginHorizontal: 20,
-    backgroundColor: '#222',
+    backgroundColor: '#20182b',
     borderRadius: 10,
     paddingVertical: 20,
   },
@@ -116,17 +116,15 @@ const styles = StyleSheet.create({
   transferOptions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flexWrap: 'wrap',
   },
   option: {
     alignItems: 'center',
-    width: '45%', // Adjust this to fit within the container
-    marginVertical: 10,
+    width: '23%', // Adjust this to fit within the container
   },
   iconContainer: {
-    backgroundColor: 'pink',
-    padding: 15,
-    borderRadius: 25,
+    backgroundColor: '#955fd4',
+    padding: 10,
+    borderRadius: 17,
     marginBottom: 5,
   },
   icon: {
@@ -137,8 +135,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
     textAlign: 'center',
+    flexWrap: 'wrap',
   },
   upiSection: {
+
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 10,
@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footerButtonText: {
+    borderColor:'#fff',
     color: '#fff',
     fontSize: 12,
     textAlign: 'center',

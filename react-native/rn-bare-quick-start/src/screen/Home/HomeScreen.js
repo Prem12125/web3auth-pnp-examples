@@ -119,6 +119,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'#0e0519'
   },
   contentContainer: {
     flexGrow: 1,
