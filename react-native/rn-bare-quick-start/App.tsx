@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/store/store'; // Adjust the import path accordingly
 import DrawerNavigator from './DrawerNavigator'; // Adjust the import path accordingly
 import { Web3AuthProvider } from './src/providers/Web3AuthProvider'; 
+import AppNavigator from './AppNavigator';
 
 const App = () => {
   return (
@@ -15,7 +16,8 @@ const App = () => {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <NavigationContainer>
-              <DrawerNavigator />
+              {/* <DrawerNavigator /> */}
+              <AppNavigator/>
             </NavigationContainer>
           </PersistGate>
         </Provider>

@@ -1,11 +1,9 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView, Image, TouchableOpacity, TextInput, Animated } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Feather from 'react-native-vector-icons/Feather';
-import Entypo from 'react-native-vector-icons/Entypo';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import TransactionCard from '../customStyle/CustomCard';
+import React, { useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, Dimensions, ScrollView, Image, TouchableOpacity, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import TransactionCard from '../../customStyle/CustomCard';
+import CustomCard2 from '../../customStyle/CustomCard1';
+import HomeUpperSection from './HomeUperSection';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,6 +18,7 @@ const HomeScreen = ({ navigation }) => {
   const currentIndex = useRef(0);
   const intervalId = useRef(null);
   const animatedValue = useRef(new Animated.Value(0)).current;
+
   const startAutoScroll = () => {
     intervalId.current = setInterval(() => {
       if (scrollViewRef.current) {
@@ -72,46 +71,28 @@ const HomeScreen = ({ navigation }) => {
 
   const renderItem = (item) => (
     <View key={item.title} style={[styles.sliderItem, { backgroundColor: item.color }]}>
-      <Image source={{ uri: item.image }} style={styles.imageSlider} />
+      <Image source={{ uri: item.image }} style={styles.imageSlider} resizeMode="contain" />
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <>
       <View style={styles.rectangleView}>
         <View style={styles.headingContainer}>
           <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
             <Image
-              source={require('./logo.png')}
+              source={require('../../../assets/image/logo.png')}
               style={styles.image}
               resizeMode="cover"
             />
           </TouchableOpacity>
-          {/* <View style={styles.searchSection}>
-            <TextInput
-              style={styles.input}
-              placeholder="Search"
-              placeholderTextColor={'rgba(53, 53, 53, 0.5)'}
-            />
-            <AntDesign
-              style={styles.searchIcon}
-              name="search1"
-              size={20}
-              color="#000"
-            />
-          </View>
-          <AntDesign
-            name="scan1"
-            size={24}
-            style={{ margin: 5 }}
-            color={'#000'}
-          /> */}
-          {/* <Feather name="bell" size={24} style={{ margin: 5 }} color={'#000'} />
-          <Entypo name="wallet" size={24} style={{ margin: 5 }} color={'#000'} /> */}
         </View>
       </View>
+    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-      <View style={styles.sliderContainer}>
+      <HomeUpperSection />
+      {/* Uncomment this section if you want to use the slider */}
+      {/* <View style={styles.sliderContainer}>
         <ScrollView
           ref={scrollViewRef}
           horizontal
@@ -123,16 +104,25 @@ const HomeScreen = ({ navigation }) => {
         >
           {data.map(renderItem)}
         </ScrollView>
-      </View>
+      </View> */}
       <View style={styles.cardContainer}>
         <TransactionCard />
-        <TransactionCard />
       </View>
-    </View>
+      <View style={{ height: 130 }}>
+        <CustomCard2 />
+      </View>
+    </ScrollView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  contentContainer: {
+    flexGrow: 1,
+  },
   image: {
     width: 40,
     height: 40,
@@ -142,19 +132,16 @@ const styles = StyleSheet.create({
   },
   rectangleView: {
     width: '100%',
-  },
-  text: {
-    color: '#9286da',
+    height: 70,
   },
   headingContainer: {
-    paddingTop: 50,
-    display: 'flex',
+    paddingTop: 30,
+    paddingRight: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: wp(4),
-    paddingVertical: hp(2),
+    paddingHorizontal: 16,
+    paddingVertical: 16,
     justifyContent: 'space-between',
-    backgroundColor: '#eeeef7',
     shadowColor: 'rgba(0.1, 0.2, 0.1, 0.3)',
     shadowOffset: {
       width: 0,
@@ -164,68 +151,28 @@ const styles = StyleSheet.create({
     elevation: 2,
     shadowOpacity: 0.1,
   },
-  searchSection: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    height: 37,
-    margin: 5,
-  },
-  searchIcon: {
-    padding: 10,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
   sliderContainer: {
-    height: 250,
+    height: 200,
+    paddingTop: 20,
   },
   slider: {
     alignItems: 'center',
   },
   sliderItem: {
     width: width,
-    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   imageSlider: {
     width: '100%',
     height: '100%',
-  },
-  text: {
-    color: '#000',
-    fontSize: 18,
-    fontWeight: 'bold',
+    resizeMode: 'contain',
   },
   cardContainer: {
     flexDirection: 'row',
     margin: 10,
-    // paddingRight: 10,
     flexWrap: 'wrap',
-    justifyContent: 'space-evenly', 
-  },
-  buttonContainer: {
-    flex: 0.2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 20,
-  },
-  animatedButton: {
-    width: '80%',
-    paddingVertical: 15,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+    justifyContent: 'space-evenly',
   },
 });
 

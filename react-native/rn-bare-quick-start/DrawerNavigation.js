@@ -1,7 +1,7 @@
 // DrawerNavigator.js
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import HomeScreen from './src/screen/HomeScreen';
+import HomeScreen from './src/screen/Home/HomeScreen';
 import ResumeFormScreen from './src/screen/ResumeFormScreen';
 import ResumePreviewScreen from './src/screen/ResumePreviewScreen';
 import ResponsiveUi from './src/screen/ResponsiveUi';

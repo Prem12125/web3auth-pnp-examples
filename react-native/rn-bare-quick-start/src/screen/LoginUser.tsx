@@ -196,6 +196,7 @@ const LoginScreen = () => {
             </View>
           ) : (
             <View style={styles.buttonAreaLogin}>
+              
               <Image source={require('./logo.png')} style={styles.image} />
 
               <Text style={styles.continueStyle}>Email</Text>

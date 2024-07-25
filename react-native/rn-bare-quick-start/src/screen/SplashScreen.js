@@ -58,9 +58,11 @@ const SplashScreen = () => {
   });
 
   return (
-    <LinearGradient start={{ x: 1, y: 1 }} end={{ x: 0, y: 0 }} colors={['#462A7E', '#213068', '#213068']} style={styles.container}>
-      <Animated.Image source={require('./logo.png')} style={{ ...styles.image, opacity: fadeAnim }} />
-      <GradientWord text="Welcome to MyApp" />
+    // background: linear-gradient(45deg, #1e3c72, #2a5298); #43cea2, #185a9d #ff7e5f, #feb47b  #ff6a00, #ee0979 #56ab2f, #a8e063
+
+    <LinearGradient start={{ x: 1, y: 1 }} end={{ x: 0, y: 0 }} colors={[ '#7B2BF9', '#78CCF0']} style={styles.container}>
+      <Animated.Image source={require('../../assets/image/dmtSplash.gif')} style={{ ...styles.image, opacity: fadeAnim }} />
+      <GradientWord text="Blockchain Helping Network" />
     </LinearGradient>
   );
 };
