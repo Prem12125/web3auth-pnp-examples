@@ -88,30 +88,36 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-
-      <HomeUpperSection />
-      {/* Uncomment this section if you want to use the slider */}
-      {/* <View style={styles.sliderContainer}>
-        <ScrollView
-          ref={scrollViewRef}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.slider}
-          onScrollBeginDrag={handleScrollBeginDrag}
-          onScrollEndDrag={handleScrollEndDrag}
-        >
-          {data.map(renderItem)}
-        </ScrollView>
-      </View> */}
-      <View style={styles.cardContainer}>
-        <TransactionCard />
-      </View>
-      <View style={{ height: 130 }}>
-        <CustomCard2 />
-      </View>
-    </ScrollView>
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <HomeUpperSection />
+        {/* Uncomment this section if you want to use the slider */}
+        {/* <View style={styles.sliderContainer}>
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.slider}
+            onScrollBeginDrag={handleScrollBeginDrag}
+            onScrollEndDrag={handleScrollEndDrag}
+          >
+            {data.map(renderItem)}
+          </ScrollView>
+        </View> */}
+        <View style={styles.cardContainer}>
+          <TransactionCard />
+          <TransactionCard />
+        </View>
+        <View style={styles.cardContainer1}>
+          <TransactionCard />
+          <TransactionCard />
+        </View>
+        {/* style={{ height: 115, marginTop:0, backgroundColor:'red' } */}
+        {/* <View  >
+          <CustomCard2 />
+        </View> */}
+        {/* <View style={{height:200}}></View> */}
+      </ScrollView>
     </>
   );
 };
@@ -119,7 +125,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'#0e0519'
+    backgroundColor: '#0e0519',
   },
   contentContainer: {
     flexGrow: 1,
@@ -172,9 +178,17 @@ const styles = StyleSheet.create({
   cardContainer: {
     flexDirection: 'row',
     margin: 10,
-    flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
+    // flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
+  cardContainer1: {
+    flexDirection: 'row',
+    marginHorizontal: 10,
+    marginBottom:10,
+    // flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  
 });
 
 export default HomeScreen;

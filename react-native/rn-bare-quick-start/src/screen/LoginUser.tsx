@@ -48,6 +48,7 @@ const LoginScreen = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [console1, setConsole] = useState('');
   const [email, setEmail] = useState('');
+
   const clearWeb3AuthCache = async () => {
     try {
       await EncryptedStorage.clear();
@@ -71,7 +72,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (loggedIn) {
-      navigation.navigate('Main' as never);
+      navigation.navigate('Main'as never);
     }
   }, [loggedIn, navigation]);
 
@@ -101,7 +102,7 @@ const LoginScreen = () => {
         setWeb3Auth(web3auth);
       }
     } catch (e) {
-      console.log("login erroe ", e);
+      console.log("login error ", e);
       clearWeb3AuthCache();
     }
   };
@@ -123,7 +124,7 @@ const LoginScreen = () => {
         setWeb3Auth(web3auth);
       }
     } catch (e) {
-      console.log("login erroe ", e);
+      console.log("login error ", e);
     }
   };
 
@@ -144,7 +145,7 @@ const LoginScreen = () => {
         setWeb3Auth(web3auth);
       }
     } catch (e) {
-      console.log("login erroe ", e);
+      console.log("login error ", e);
     }
   };
 
@@ -165,7 +166,7 @@ const LoginScreen = () => {
         setWeb3Auth(web3auth);
       }
     } catch (e) {
-      console.log("login erroe ", e);
+      console.log("login error ", e);
     }
   };
 
@@ -174,29 +175,8 @@ const LoginScreen = () => {
       <StatusBar backgroundColor={'green'} barStyle={'dark-content'} hidden={true} />
       <LinearGradient start={{ x: 1, y: 1 }} end={{ x: 0, y: 0 }} colors={['#462A7E', '#213068', '#213068']} style={styles.container}>
         <View style={styles.container}>
-          {loggedIn ? (
-            <View style={styles.buttonArea}>
-              <Button title="Get User Info" onPress={() => setConsole(JSON.stringify(web3auth.userInfo(), null, 2))} />
-              <Button title="Get Accounts" onPress={async () => {
-                const provider = new ethers.Wallet(web3auth.privKey, ethers.getDefaultProvider('https://rpc.ankr.com/eth_sepolia'));
-                const address = await provider.getAddress();
-                setConsole(address);
-              }} />
-              <Button title="Get Balance" onPress={async () => {
-                const provider = new ethers.Wallet(web3auth.privKey, ethers.getDefaultProvider('https://rpc.ankr.com/eth_sepolia'));
-                // const balance = ethers.utils.formatEther(await provider.getBalance());
-                // setConsole(balance);
-              }} />
-              <Button title="Sign Message" onPress={async () => {
-                const provider = new ethers.Wallet(web3auth.privKey, ethers.getDefaultProvider('https://rpc.ankr.com/eth_sepolia'));
-                const signedMessage = await provider.signMessage('YOUR_MESSAGE');
-                setConsole(signedMessage);
-              }} />
-              <Button title="Show Wallet UI" onPress={() => web3auth.launchWalletServices(chainConfig)} />
-            </View>
-          ) : (
+          {!loggedIn && (
             <View style={styles.buttonAreaLogin}>
-              
               <Image source={require('./logo.png')} style={styles.image} />
 
               <Text style={styles.continueStyle}>Email</Text>

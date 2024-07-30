@@ -12,10 +12,10 @@ const Tab = createBottomTabNavigator();
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   return (
-    <ImageBackground
-      source={require('./assets/image/bottomBar2.png')}
-      style={styles.backgroundImage}
-    >
+    // <ImageBackground
+    //   source={require('./assets/image/bottomBar2.png')}
+    //   style={styles.backgroundImage}
+    // >
       <View style={styles.tabBar}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
@@ -86,7 +86,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
           );
         })}
       </View>
-    </ImageBackground>
+    // </ImageBackground>
   );
 };
 
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     },
   tabBar: {
     flexDirection: 'row',
-    // height: 90,
+    height: 90,
     marginTop:10,
     marginLeft:1,
     marginRight:5,

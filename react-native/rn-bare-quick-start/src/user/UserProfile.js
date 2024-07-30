@@ -79,8 +79,9 @@ const UserProfile = () => {
       await AsyncStorage.setItem('userName', '');
       await AsyncStorage.setItem('profileImage', '');
 
-
-      navigation.navigate('Splash');
+      // navigation.navigate('Splash');
+      navigation.replace('Splash');
+      // navigation.navigate('Splash')
       console.log('Navigated to Splash screen');
     } catch (error) {
       console.error('Logout failed', error);
@@ -103,13 +104,13 @@ const UserProfile = () => {
   };
 
   return (
-    <ImageBackground
-      source={require('../../assets/image/bg.png')}
-      style={styles.background}>
-      
-      <View style={styles.NavBar} />
-      <ScrollView>
-        <View style={styles.profileImageContainer}>
+   
+      <>
+      {/* <View style={[styles.NavBar} ,{backgroundColor:'#20182b'}]} /> */}
+
+      <View style={[styles.NavBar,{backgroundColor:'#0e0519'} ]} />
+      <ScrollView style={{backgroundColor:'#0e0519'}}>
+        <View style={[styles.profileImageContainer]}>
           <TouchableOpacity onPress={handleImagePicker}>
             <Image
               source={profileImage || require('../../assets/image/account-user.png')}
@@ -120,15 +121,16 @@ const UserProfile = () => {
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.infoContainer(screenHeight)}>
+        <View style={[styles.infoContainer(screenHeight),]}>
           <View style={styles.Row}>
             <View style={styles.AccountContainer}>
               <View>
                 <Text style={styles.Label}>Name</Text>
                 {isEditingName ? (
                   <TextInput
-                    style={styles.input}
+                    style={styles.input1}
                     value={name}
+                    
                     onChangeText={setName}
                     onBlur={handleSaveName}
                   />
@@ -167,13 +169,19 @@ const UserProfile = () => {
           </View>
         </View>
       </ScrollView>
-    </ImageBackground>
+      </>
   );
 };
 
 const paddingTop = Platform.OS === 'ios' ? wp(15) : '';
 
 const styles = StyleSheet.create({
+  
+  background1:{
+   backgroundColor:'#0e0519'
+  },
+
+
   logoutButton: {
     backgroundColor: '#FF0000',
     paddingVertical: wp(2),
@@ -204,8 +212,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 15,
   },
+  // 20182b   20182b  0e0519
   infoContainer: (screenHeight) => ({
-    backgroundColor: '#FFFFFF87',
+    backgroundColor: '#20182b',
     padding: wp(5),
     marginTop: wp(5),
     height: screenHeight / 1.3,
@@ -242,7 +251,7 @@ const styles = StyleSheet.create({
     fontSize: wp(3.5),
   },
   Info: {
-    color: '#000',
+    color: '#fff',
     fontSize: wp(4.2),
     lineHeight: wp(5),
     marginTop: wp(1),
@@ -253,9 +262,10 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
   },
-  input: {
+  input1: {
     height: 40,
     borderColor: '#ccc',
+  color: '#ccc',
     borderWidth: 1,
     paddingLeft: 8,
     marginTop: wp(1),

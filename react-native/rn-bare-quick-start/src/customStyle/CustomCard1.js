@@ -5,13 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const CustomCard2 = () => {
   return (
     <View style={styles.container}>
-      {/* <View style={styles.header}>
-        <Text style={styles.title}>CASHIER</Text>
-        <View style={styles.icons}>
-          <Icon name="help-circle-outline" size={24} color="#fff" style={styles.icon} />
-          <Icon name="dots-horizontal" size={24} color="#fff" style={styles.icon} />
-        </View>
-      </View> */}
+     
       <View style={styles.content}>
         <Image
           source={{ uri: 'https://jkinstitute.ac.in/Images/Images/prem.jpg' }}
@@ -24,7 +18,7 @@ const CustomCard2 = () => {
           <Icon name="arrow-right" size={16} color="#f56b00" />
           <Text style={styles.loginSubText}>to Make Payments</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.fingerprintButton}>
+        {/* <TouchableOpacity style={styles.fingerprintButton}>
           <Icon name="fingerprint" size={32} color="#f56b00" />
         </TouchableOpacity>
         <View style={styles.buttonRow}>
@@ -34,7 +28,7 @@ const CustomCard2 = () => {
           <TouchableOpacity style={styles.accountButton}>
             <Text style={styles.accountButtonText}>My account</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -43,8 +37,10 @@ const CustomCard2 = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#171717',
-    padding: 20,
+    // backgroundColor: '#20182b',
+    paddingHorizontal: 10,
+    paddingBottom:10,
+
   },
   header: {
     flexDirection: 'row',
@@ -64,9 +60,9 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   content: {
-    backgroundColor: '#262626',
-    borderRadius: 15,
-    padding: 20,
+    backgroundColor: '#20182b',
+    borderRadius: 10,
+    paddingVertical: 10,
     alignItems: 'center',
   },
   avatar: {

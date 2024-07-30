@@ -5,170 +5,171 @@ import Swiper from 'react-native-swiper';
 const { width: viewportWidth } = Dimensions.get('window');
 
 const carouselItems = [
-  {
-    imgUrl: 'https://www.jkinstitute.ac.in/Images/Images/prem.jpg', // replace with actual image URLs
-    caption: 'PhonePe Rewards'
-  },
-  {
-    imgUrl: 'https://www.jkinstitute.ac.in/Images/Images/prem.jpg',
-    caption: 'PhonePe Rewards'
-  },
-  {
-    imgUrl: 'https://www.jkinstitute.ac.in/Images/Images/prem.jpg',
-    caption: 'PhonePe Rewards'
-  },
-  {
-    imgUrl: 'https://www.jkinstitute.ac.in/Images/Images/prem.jpg',
-    caption: 'PhonePe Rewards'
-  },
-  // Add more items as needed
+    {
+        imgUrl: require('./slider/slider1.png'),
+        caption: 'PhonePe Rewards'
+    },
+    {
+        imgUrl: require('./slider/slider2.png'),
+        caption: 'PhonePe Rewards'
+    },
+    {
+        imgUrl: require('./slider/slider3.png'),
+        caption: 'PhonePe Rewards'
+    },
+   
+    
 ];
 
 const HomeUpperSection = () => {
-  return (
-    <View style={styles.container}>
-      <Swiper style={styles.wrapper} autoplay>
-        {carouselItems.map((item, index) => (
-          <View style={styles.slide} key={index}>
-            <Image source={{ uri: item.imgUrl }} style={styles.image} />
-          </View>
-        ))}
-      </Swiper>
-      <View style={styles.transferSection}>
-        <Text style={styles.sectionTitle}>Transfer Money</Text>
-        <View style={styles.transferOptions}>
-          <View style={styles.option}>
-            <View style={styles.iconContainer}>
-              <Image source={require('../APPLE.png')} style={styles.icon} />
+    return (
+        <View style={styles.container}>
+            <Swiper style={styles.wrapper} autoplay>
+                {carouselItems.map((item, index) => (
+                    <View style={styles.slide} key={index}>
+                        <Image source={item.imgUrl} style={styles.image} />
+                    </View>
+                ))}
+            </Swiper>
+            <View style={styles.transferSection}>
+                <Text style={styles.sectionTitle}>DMT Club</Text>
+                <View style={styles.transferOptions}>
+                    <View style={styles.option}>
+                        <View style={styles.iconContainer}>
+                            <Image source={require('../../../assets/Icon/makehelp.png')} style={styles.icon} />
+                        </View>
+                        <Text style={styles.optionText}>Make Help</Text>
+                    </View>
+                    <View style={styles.option}>
+                        <View style={styles.iconContainer}>
+                            <Image source={require('../../../assets/Icon/gdhelp.png')} style={styles.icon} />
+                        </View>
+                        <Text style={styles.optionText}>GD Help</Text>
+                    </View>
+                    <View style={styles.option}>
+                        <View style={styles.iconContainer}>
+                            <Image source={require('../../../assets/Icon/rewards.png')} style={styles.icon} />
+                        </View>
+                        <Text style={styles.optionText}>Rewards</Text>
+                    </View>
+                    <View style={styles.option}>
+                        <View style={styles.iconContainer}>
+                            <Image source={require('../../../assets/Icon/myteam.png')} style={styles.icon} />
+                        </View>
+                        <Text style={styles.optionText}>My Team</Text>
+                    </View>
+                </View>
             </View>
-            <Text style={styles.optionText}>To Mobile Number</Text>
-          </View>
-          <View style={styles.option}>
-            <View style={styles.iconContainer}>
-              <Image source={require('../APPLE.png')} style={styles.icon} />
+            <View style={styles.footer}>
+                <View style={styles.footerButton}>
+                    <View >
+                        <Image source={require('../../../assets/Icon/wallet.png')} style={styles.iconRow} />
+                    </View>
+                    <Text style={styles.footerButtonText}>Wallet</Text>
+                </View>
+                <View style={styles.footerButton}>
+                    <View >
+                        <Image source={require('../../../assets/Icon/rewards.png')} style={styles.iconRow} />
+                    </View>
+                    <Text style={styles.footerButtonText}>Rewards</Text>
+                </View>
+                <View style={styles.footerButton}>
+                    <View >
+                        <Image source={require('../../../assets/Icon/reffaral.png')} style={styles.iconRow} />
+                    </View>
+                    <Text style={styles.footerButtonText}>Refer</Text>
+                </View>
             </View>
-            <Text style={styles.optionText}>To Bank/UPI ID</Text>
-          </View>
-          <View style={styles.option}>
-            <View style={styles.iconContainer}>
-              <Image source={require('../APPLE.png')} style={styles.icon} />
-            </View>
-            <Text style={styles.optionText}>To Self Account</Text>
-          </View>
-          <View style={styles.option}>
-            <View style={styles.iconContainer}>
-              <Image source={require('../APPLE.png')} style={styles.icon} />
-            </View>
-            <Text style={styles.optionText}>Check Bank Balance</Text>
-          </View>
         </View>
-        <View style={styles.upiSection}>
-          <Text style={styles.upiText}>UPI Lite: <Text style={styles.link}>Try Now</Text></Text>
-          <Text style={styles.upiText}>UPI ID: 9694287342@ybl</Text>
-        </View>
-      </View>
-      <View style={styles.footer}>
-        <View style={styles.footerButton}>
-          <Text style={styles.footerButtonText}>PhonePe Wallet</Text>
-        </View>
-        <View style={styles.footerButton}>
-          <Text style={styles.footerButtonText}>Explore Rewards</Text>
-        </View>
-        <View style={styles.footerButton}>
-          <Text style={styles.footerButtonText}>Refer & Get ₹100</Text>
-        </View>
-      </View>
-    </View>
-  );
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 20,
-  },
-  wrapper: {
-    height: 200,
-  },
-  slide: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    width: viewportWidth - 40,
-    height: 200,
-    borderRadius: 10,
-  },
-  transferSection: {
-    marginTop: 20,
-    paddingHorizontal: 20,
-    marginHorizontal: 20,
-    backgroundColor: '#20182b',
-    borderRadius: 10,
-    paddingVertical: 20,
-  },
-  sectionTitle: {
-    color: '#fff',
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  transferOptions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  option: {
-    alignItems: 'center',
-    width: '23%', // Adjust this to fit within the container
-  },
-  iconContainer: {
-    backgroundColor: '#955fd4',
-    padding: 10,
-    borderRadius: 17,
-    marginBottom: 5,
-  },
-  icon: {
-    width: 30,
-    height: 30,
-  },
-  optionText: {
-    color: '#fff',
-    fontSize: 12,
-    textAlign: 'center',
-    flexWrap: 'wrap',
-  },
-  upiSection: {
+    container: {
+        flex: 1,
+        paddingTop: 10,
+        // paddingBottom:10,
 
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-  },
-  upiText: {
-    color: '#fff',
-    fontSize: 14,
-  },
-  link: {
-    color: '#00E676',
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
-    paddingHorizontal: 20,
-  },
-  footerButton: {
-    backgroundColor: '#6200EE',
-    padding: 15,
-    borderRadius: 10,
-    width: '30%',
-    alignItems: 'center',
-  },
-  footerButtonText: {
-    borderColor:'#fff',
-    color: '#fff',
-    fontSize: 12,
-    textAlign: 'center',
-  },
+    },
+    wrapper: {
+        // backgroundColor:'red',
+
+        height: 150,
+    },
+    slide: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    image: {
+        // resizeMode:'cover',
+// ,
+        width: viewportWidth - 20,
+        // height: 200,
+        borderRadius: 10,
+    },
+    transferSection: {
+        marginTop: 15,
+        paddingHorizontal: 15,
+        marginHorizontal: 10,
+        backgroundColor: '#20182b',
+        borderRadius: 10,
+        paddingVertical: 15,
+    },
+    sectionTitle: {
+        color: '#fff',
+        fontSize: 18,
+        marginBottom: 10,
+    },
+    transferOptions: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    option: {
+        alignItems: 'center',
+        width: '23%',
+    },
+    iconContainer: {
+        backgroundColor: '#955fd4',
+        padding: 10,
+        borderRadius: 17,
+        marginBottom: 5,
+    },
+    icon: {
+        width: 30,
+        height: 30,
+    },
+    iconRow: {
+        width: 20,
+        height: 20,
+        marginRight: 20,
+    },
+    optionText: {
+        color: '#fff',
+        fontSize: 12,
+        textAlign: 'center',
+        flexWrap: 'wrap',
+    },
+    footer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 15,
+        paddingHorizontal: 10,
+    },
+    footerButton: {
+        backgroundColor: '#20182b',
+        flexDirection: 'row',
+        padding: 15,
+        borderRadius: 10,
+        width: '30%',
+        alignItems: 'center',
+    },
+    footerButtonText: {
+        flexWrap: 'wrap',
+        color: '#fff',
+        fontSize: 12,
+        textAlign: 'center',
+    },
 });
 
 export default HomeUpperSection;

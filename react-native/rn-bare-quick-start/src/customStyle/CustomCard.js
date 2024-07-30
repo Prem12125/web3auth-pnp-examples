@@ -4,7 +4,7 @@ import { View, Text, Image, StyleSheet, ImageBackground } from 'react-native';
 const TransactionCard = () => {
   return (
     <ImageBackground 
-      source={require('./background.png')} 
+      source={require('./background1.png')} 
       style={styles.card}
       imageStyle={styles.backgroundImage}
     >
@@ -28,18 +28,27 @@ const TransactionCard = () => {
 };
 
 const styles = StyleSheet.create({
+  backgroundImage:{
+   
+    borderRadius:10
+  },
   card: {
     // width: '68%', 
-    height: 150,
-    backgroundColor: '#fff',
+    // height: 180,
+    flex:1,
+    // backgroundColor: '#fff',
+    backgroundColor: '#20182b',
+
     borderRadius: 10,
     padding: 10,
-    margin: 5,
+    margin: 2,
+    // marginRight:10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 2,  
     elevation: 5,
+    
   },
   
   header: {
@@ -47,6 +56,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     marginBottom: 10,
+
   },
   profileImage: {
     width: 70,
@@ -63,11 +73,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   fromText: {
-    color: '#666',
+    color: '#fff',
     fontSize: 14,
   },
   nameText: {
-    color: '#000',
+    color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
   },
