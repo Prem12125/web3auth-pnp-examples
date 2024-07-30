@@ -8,6 +8,7 @@ import SignupScreen from './src/screen/SignupScreen';
 import LoginHome from './src/screen/LoginUser'
 import ConsoleScreen from './src/screen/ConsoleScreen';
 import UserProfile from './src/user/UserProfile';
+import WalletScreenUI from './src/screen/wallet/walletScreen';
 
 
 const Stack = createStackNavigator();
@@ -52,6 +53,12 @@ const AppNavigator = () => {
         component={BottomTabNavigator} 
         options={{ headerShown: false }} 
       />
+
+      <Stack.Screen 
+      name='WalletScreenUI'
+      component={WalletScreenUI}
+      options={{ headerShown: true }} 
+      /> 
     </Stack.Navigator>
   );
 };

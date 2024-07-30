@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Swiper from 'react-native-swiper';
+import { useNavigation } from '@react-navigation/native';
 
 const { width: viewportWidth } = Dimensions.get('window');
 
@@ -17,11 +19,26 @@ const carouselItems = [
         imgUrl: require('./slider/slider3.png'),
         caption: 'PhonePe Rewards'
     },
-   
-    
 ];
 
 const HomeUpperSection = () => {
+    const navigation = useNavigation();
+
+    const handleWalletPress = () => {
+        console.log("Wallet Pressed");
+        navigation.navigate('WalletScreenUI');
+    };
+
+    const handleRewardsPress = () => {
+        console.log("Rewards Pressed");
+        // Additional logic for rewards
+    };
+
+    const handleReferPress = () => {
+        console.log("Refer Pressed");
+        // Additional logic for referral
+    };
+
     return (
         <View style={styles.container}>
             <Swiper style={styles.wrapper} autoplay>
@@ -61,24 +78,24 @@ const HomeUpperSection = () => {
                 </View>
             </View>
             <View style={styles.footer}>
-                <View style={styles.footerButton}>
-                    <View >
+                <TouchableOpacity style={styles.footerButton} onPress={handleWalletPress}>
+                    <View>
                         <Image source={require('../../../assets/Icon/wallet.png')} style={styles.iconRow} />
                     </View>
                     <Text style={styles.footerButtonText}>Wallet</Text>
-                </View>
-                <View style={styles.footerButton}>
-                    <View >
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.footerButton} onPress={handleRewardsPress}>
+                    <View>
                         <Image source={require('../../../assets/Icon/rewards.png')} style={styles.iconRow} />
                     </View>
                     <Text style={styles.footerButtonText}>Rewards</Text>
-                </View>
-                <View style={styles.footerButton}>
-                    <View >
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.footerButton} onPress={handleReferPress}>
+                    <View>
                         <Image source={require('../../../assets/Icon/reffaral.png')} style={styles.iconRow} />
                     </View>
                     <Text style={styles.footerButtonText}>Refer</Text>
-                </View>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -88,12 +105,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 10,
-        // paddingBottom:10,
-
     },
     wrapper: {
-        // backgroundColor:'red',
-
         height: 150,
     },
     slide: {
@@ -102,10 +115,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     image: {
-        // resizeMode:'cover',
-// ,
         width: viewportWidth - 20,
-        // height: 200,
         borderRadius: 10,
     },
     transferSection: {
@@ -161,11 +171,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 15,
         borderRadius: 10,
-        width: '30%',
         alignItems: 'center',
     },
     footerButtonText: {
-        flexWrap: 'wrap',
         color: '#fff',
         fontSize: 12,
         textAlign: 'center',
