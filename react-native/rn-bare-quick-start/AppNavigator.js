@@ -9,6 +9,7 @@ import LoginHome from './src/screen/LoginUser'
 import ConsoleScreen from './src/screen/ConsoleScreen';
 import UserProfile from './src/user/UserProfile';
 import WalletScreenUI from './src/screen/wallet/walletScreen';
+import ReferFriend from './src/screen/refer/ReferFriend';
 
 
 const Stack = createStackNavigator();
@@ -59,6 +60,11 @@ const AppNavigator = () => {
       component={WalletScreenUI}
       options={{ headerShown: true }} 
       /> 
+      <Stack.Screen 
+      name='ReferFriend'
+      component={ReferFriend}
+      // options={{header:true}}
+      />
     </Stack.Navigator>
   );
 };

@@ -15,6 +15,8 @@
 	<key>CFBundleName</key>
 	<!-- <string>$(PRODUCT_NAME)</string> -->
 	<string></string>
+	<key>NSContactsUsageDescription</key>
+    <string>This app requires access to the contacts to function properly.</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

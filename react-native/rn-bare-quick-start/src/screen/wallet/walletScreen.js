@@ -3,7 +3,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { FlatList, ImageBackground, RefreshControl, StyleSheet, TouchableOpacity ,View, Text, Image} from 'react-native';
 const WalletScreenUI = () => {
   // Static data for display purposes
-  const dummyTransactions = Array.from({ length: 3 }, (_, index) => ({
+  const dummyTransactions = Array.from({ length: 4 }, (_, index) => ({
     txn_id: `TXN${index + 1}`,
     date: "2021-07-20",
     message: "Payment Received",
@@ -41,9 +41,9 @@ const WalletScreenUI = () => {
     <View
      
       style={styles.background}>
-      <View style={styles.NavBar}>
+      {/* <View style={styles.NavBar}>
         <Text style={styles.panVerification}>Wallet</Text>
-      </View>
+      </View> */}
       <View style={{ padding: wp(5), marginTop: wp(4) }}>
         <View style={styles.cards}>
           <View style={{ backgroundColor: '#955fd4',
@@ -115,7 +115,7 @@ const WalletScreenUI = () => {
             resizeMode='contain'
           />
         </View>
-
+<View style={{height:1,backgroundColor:'white'}}></View>
         <FlatList
           data={dummyTransactions}
           renderItem={renderItem}
@@ -129,7 +129,7 @@ const WalletScreenUI = () => {
 const styles = StyleSheet.create({
     background: {
       flex: 1,
-      resizeMode: 'cover',
+    //   resizeMode: 'cover',
       backgroundColor:'#0e0519'
     },
     circularImageContainer: {

@@ -26,7 +26,7 @@ const HomeUpperSection = () => {
 
     const handleWalletPress = () => {
         console.log("Wallet Pressed");
-        navigation.navigate('WalletScreenUI');
+        navigation.navigate('Wallet');
     };
 
     const handleRewardsPress = () => {
@@ -36,6 +36,7 @@ const HomeUpperSection = () => {
 
     const handleReferPress = () => {
         console.log("Refer Pressed");
+        navigation.navigate('ReferFriend')
         // Additional logic for referral
     };
 

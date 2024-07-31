@@ -7,6 +7,7 @@ import ResumePreviewScreen from './src/screen/ResumePreviewScreen';
 import ResponsiveUi from './src/screen/ResponsiveUi';
 import { View, StyleSheet, Text, TextInput, ImageBackground } from 'react-native';
 import UserProfile from './src/user/UserProfile';
+import WalletScreenUI from './src/screen/wallet/walletScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -60,7 +61,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                       ? isFocused
                         ? 'document'
                         : 'document-outline'
-                      : route.name === 'Explore'
+                      : route.name === 'Wallet'
                         ? isFocused
                           ? 'eye'
                           : 'eye-outline'
@@ -95,17 +96,17 @@ const BottomTabNavigator = () => {
     <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
       <Tab.Screen name="Home" component={HomeScreen} options={{headerShown:false}}/>
       <Tab.Screen name="Plan" component={ResumeFormScreen} />
-      <Tab.Screen name="Explore" component={ResumePreviewScreen} options={{
-          headerShown: true,
-          headerTitle: () => (
-            <View style={styles.searchSection}>
-              <TextInput
-                style={styles.input}
-                placeholder="Search"
-                placeholderTextColor={'rgba(53, 53, 53, 0.5)'}
-              />
-            </View>
-          )
+      <Tab.Screen name="Wallet" component={WalletScreenUI} options={{
+          headerShown: false,
+          // headerTitle: () => (
+          //   <View style={styles.searchSection}>
+          //     <TextInput
+          //       style={styles.input}
+          //       placeholder="Search"
+          //       placeholderTextColor={'rgba(53, 53, 53, 0.5)'}
+          //     />
+          //   </View>
+          // )
         }} />
       <Tab.Screen name="Profile" component={UserProfile} options={{headerShown:false}} />
     </Tab.Navigator>
