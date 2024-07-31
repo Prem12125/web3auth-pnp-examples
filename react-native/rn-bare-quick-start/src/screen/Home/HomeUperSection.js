@@ -31,6 +31,7 @@ const HomeUpperSection = () => {
 
     const handleRewardsPress = () => {
         console.log("Rewards Pressed");
+        navigation.navigate('WalletScreenUI');
         // Additional logic for rewards
     };
 

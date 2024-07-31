@@ -58,12 +58,15 @@ const AppNavigator = () => {
       <Stack.Screen 
       name='WalletScreenUI'
       component={WalletScreenUI}
-      options={{ headerShown: true }} 
+      options={{ headerShown: false
+      
+      
+      }} 
       /> 
       <Stack.Screen 
       name='ReferFriend'
       component={ReferFriend}
-      // options={{header:true}}
+      options={{headerShown:false}}
       />
     </Stack.Navigator>
   );

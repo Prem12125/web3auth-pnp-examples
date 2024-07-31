@@ -77,7 +77,7 @@ const ListItem = props => {
   };
 
   return (
-    <View>
+    <View style={{backgroundColor:'#20182b' , borderRadius:10, marginBottom:2, marginHorizontal:5}}>
       {/* <TouchableOpacity oness={() => onPrss(item)}> */}
       <View style={styles.itemContainer}>
         <View style={styles.leftElementContainer}>
@@ -124,7 +124,7 @@ const ListItem = props => {
               style={styles.searchIcon}
               name="message1"
               size={25}
-              color="#000"
+              color="#fff"
              onPress={handleMessageShare}
             />
           </View>
@@ -142,12 +142,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   itemContainer: {
+    
     flexDirection: 'row',
     alignItems: 'center',
     minHeight: 44,
     // height: 63,
     paddingHorizontal: 15,
-    backgroundColor: '#fff',
+    // backgroundColor: '#20182b',
   },
   leftElementContainer: {
     justifyContent: 'center',
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
 
   titleStyle: {
     fontSize: 16,
-    color: '#000',
+    color: '#fff',
     textTransform: 'capitalize',
   },
 
