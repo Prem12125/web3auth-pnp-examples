@@ -101,7 +101,7 @@ const WalletScreenUI = () => {
           {truncateAddress(qrValue)}
         </Text>
         <TouchableOpacity onPress={() => handleCopy(qrValue)}>
-          <AntDesign name="copy1" size={24} color="#fff" />
+          <AntDesign name="copy1" size={24} color="#000" />
         </TouchableOpacity>
       </View>
     </View>
@@ -513,7 +513,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     paddingHorizontal: 10,
-    backgroundColor: '#20182b',
+    backgroundColor: '#E7E2F6',
     width:'90%'
     // maxWidth: '100%',
   },
@@ -535,7 +535,7 @@ const styles = StyleSheet.create({
   modalStyle: {
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    backgroundColor:'#0e0519',
+    backgroundColor:'#E7E2F6',
 
   },
 });
