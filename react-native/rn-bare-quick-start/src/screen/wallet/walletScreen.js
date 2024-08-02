@@ -18,6 +18,7 @@ import { Modalize } from 'react-native-modalize';
 import { getAccounts } from '../../store/loginSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
+
 const WalletScreenUI = () => {
   const navigation = useNavigation();
   const modalizeRef = useRef(null);

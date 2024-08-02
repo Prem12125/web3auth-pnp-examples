@@ -3,10 +3,10 @@ name: iOS Build and Test
 on:
   push:
     branches:
-      - projectX  # Update this if you are using a different branch
+      - projectX 
   pull_request:
     branches:
-      - projectX  # Update this if you are using a different branch
+      - projectX  
 
 jobs:
   build-and-test:
