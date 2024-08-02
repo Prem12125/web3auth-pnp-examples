@@ -64,6 +64,9 @@ const UserProfile = () => {
   };
 
   const handleLogout = async () => {
+    dispatch(logoutSuccess());
+    navigation.replace('Splash');
+    
     if (!web3auth.ready) {
       console.log('Web3Auth not initialized');
       return;
@@ -73,14 +76,12 @@ const UserProfile = () => {
     try {
       await web3auth.logout();
       console.log('Web3Auth logout successful');
-      dispatch(logoutSuccess());
       setWeb3Auth(null);
       console.log('Redux logout success dispatched');
       await AsyncStorage.setItem('userName', '');
       await AsyncStorage.setItem('profileImage', '');
 
       // navigation.navigate('Splash');
-      navigation.replace('Splash');
       // navigation.navigate('Splash')
       console.log('Navigated to Splash screen');
     } catch (error) {

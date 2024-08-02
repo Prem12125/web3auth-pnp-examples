@@ -77,7 +77,7 @@ const ListItem = props => {
   };
 
   return (
-    <View style={{backgroundColor:'#20182b' , borderRadius:10, marginBottom:2, marginHorizontal:5}}>
+    <View style={{backgroundColor:'#20182b' , borderRadius:10, marginBottom:2, marginHorizontal:10}}>
       {/* <TouchableOpacity oness={() => onPrss(item)}> */}
       <View style={styles.itemContainer}>
         <View style={styles.leftElementContainer}>

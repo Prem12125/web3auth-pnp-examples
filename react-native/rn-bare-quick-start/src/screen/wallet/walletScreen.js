@@ -1,13 +1,40 @@
-import React from 'react';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { FlatList, ImageBackground, RefreshControl, StyleSheet, TouchableOpacity ,View, Text, Image, ScrollView } from 'react-native';
+import React, { useRef,useEffect,useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  ScrollView,
+  ToastAndroid
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import QRCode from 'react-native-qrcode-svg';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
+import Clipboard from '@react-native-clipboard/clipboard';
+import { Modalize } from 'react-native-modalize';
+import { getAccounts } from '../../store/loginSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 const WalletScreenUI = () => {
   const navigation = useNavigation();
+  const modalizeRef = useRef(null);
+  // const qrValue = 'https://example.com/deposit';
+  const [qrValue , setQrvalue] = useState('Wallet Address Not Found')
+  const { userInfo, accounts } = useSelector(state => state.login);
 
-  // Static data for display purposes
+  useEffect(() => {
+    const init = async () => {
+    // await web3auth.init();
+     
+      handleGetAccounts();
+      setQrvalue(accounts) 
+    };
+    init();
+  }, []);
+
   const dummyTransactions = Array.from({ length: 3 }, (_, index) => ({
     txn_id: `TXN${index + 1}`,
     date: "2021-07-20",
@@ -16,9 +43,20 @@ const WalletScreenUI = () => {
     time: "10:00 AM"
   }));
 
+  const handleCopy = (content) => {
+    Clipboard.setString(content);
+  };
+
+  const handleGetAccounts = () => {
+    console.log('Retrieving accounts...');
+    console.log('Accounts retrieved', accounts );
+
+    // dispatch(getAccounts());
+   
+  };
   const renderItem = ({ item, index }) => (
     <View style={styles.Row} key={index.toString()}>
-      <View style={{ flexDirection: 'row', }}>
+      <View style={{ flexDirection: 'row' }}>
         <View style={styles.arrowBg}>
           <Image
             source={require('../../../assets/image/image/arrow-down.png')}
@@ -26,7 +64,7 @@ const WalletScreenUI = () => {
             resizeMode="contain"
           />
         </View>
-        <View style={{ marginStart: wp(2), }}>
+        <View style={{ marginStart: wp(2) }}>
           <Text style={styles.Label}>{item.txn_id}</Text>
           <Text style={styles.Info}>{item.date}</Text>
           <Text style={styles.InfoMessage}>{item.message}</Text>
@@ -41,103 +79,137 @@ const WalletScreenUI = () => {
       </View>
     </View>
   );
+  const truncateAddress = (address) => {
+    if (address.length > 25) {
+      return address.substring(0, 25) + '...';
+    }
+    return address;
+  };
+  
+  const renderModalContent = () => (
+    <View style={styles.modalContent}>
+      <Text style={styles.modalTitle}>Scan to Deposit Money</Text>
+      <QRCode
+        value={qrValue}
+        size={200}
+        backgroundColor="#20182b"
+        color="#fff"
+      />
+      <View style={styles.qrCodeTextContainer}>
+        <Text style={styles.qrCodeText}>
+          {truncateAddress(qrValue)}
+        </Text>
+        <TouchableOpacity onPress={() => handleCopy(qrValue)}>
+          <AntDesign name="copy1" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 
   return (
-      <View style={styles.background}>
-        <View style={styles.NavBar}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <AntDesign
-              style={styles.searchIcon}
-              name="arrowleft"
-              size={25}
-              color="#9286DA"
+    <View style={styles.background}>
+      <View style={styles.NavBar}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <AntDesign
+            style={styles.searchIcon}
+            name="arrowleft"
+            size={25}
+            color="#9286DA"
+          />
+        </TouchableOpacity>
+        <Text style={styles.panVerification}>Wallet</Text>
+      </View>
+
+      <View style={{ padding: wp(5), marginTop: wp(4) }}>
+        <View style={styles.cards}>
+          <View style={{
+            backgroundColor: '#955fd4',
+            padding: 10,
+            borderRadius: 17,
+            marginBottom: 5,
+          }}>
+            <Image
+              source={require('../../../assets/image/image/wallet.png')}
+              style={styles.walletImage}
+              resizeMode="contain"
             />
-          </TouchableOpacity>
-          <Text style={styles.panVerification}>Wallet</Text>
+          </View>
+          <View style={{ paddingLeft: 10 }}>
+            <Text style={styles.caption}>Current Wallet Balance</Text>
+            <Text style={styles.valueInfo}>$ 1500.00</Text>
+          </View>
         </View>
 
-        <View style={{ padding: wp(5), marginTop: wp(4) }}>
-          <View style={styles.cards}>
-            <View style={{
-              backgroundColor: '#955fd4',
-              padding: 10,
-              borderRadius: 17,
-              marginBottom: 5,
-            }}>
-              <Image
-                source={require('../../../assets/image/image/wallet.png')}
-                style={styles.walletImage}
-                resizeMode="contain"
-              />
-            </View>
-            <View style={{ paddingLeft: 10 }}>
-              <Text style={styles.caption}>Current Wallet Balance</Text>
-              <Text style={styles.valueInfo}>₹ 1500.00</Text>
-            </View>
-          </View>
-
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: wp(5) }}>
-            <TouchableOpacity style={styles.centeredContent}>
-              <Image
-                source={require('../../../assets/image/image/purple-wallet.png')}
-                style={styles.SmallImage}
-                resizeMode="contain"
-              />
-              <Text style={styles.caption}>ADD </Text>
-              <Text style={styles.bigCaption}>Money </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.centeredContent}>
-              <Image
-                source={require('../../../assets/image/image/sendmoney.png')}
-                style={styles.SmallImage}
-                resizeMode="contain"
-              />
-              <Text style={styles.caption}>Send </Text>
-              <Text style={styles.bigCaption}>Money </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.centeredContent}>
-              <Image
-                source={require('../../../assets/image/image/receive.png')}
-                style={styles.SmallImage}
-                resizeMode="contain"
-              />
-              <Text style={styles.caption}>Receive </Text>
-              <Text style={styles.bigCaption}>Money </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.centeredContent}>
-              <Image
-                source={require('../../../assets/image/image/with.png')}
-                style={styles.SmallImage}
-                resizeMode="contain"
-              />
-              <Text style={styles.caption}>Withdrawal </Text>
-              <Text style={styles.bigCaption}>Balance </Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: wp(3), }}>
-            <Text style={styles.heading}>Recent Transaction</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: wp(5) }}>
+          <TouchableOpacity style={styles.centeredContent} onPress={() => modalizeRef.current?.open()}>
             <Image
-              source={require('../../../assets/image/image/sorting.png')}
-              style={{ width: 25, height: 25 }}
-              resizeMode='contain'
+              source={require('../../../assets/image/image/purple-wallet.png')}
+              style={styles.SmallImage}
+              resizeMode="contain"
             />
-          </View>
-          <View style={{ height: 1, backgroundColor: 'white' }}></View>
-    <ScrollView contentContainerStyle={styles.scrollViewContent}>
+            <Text style={styles.caption}>Deposit </Text>
+            <Text style={styles.bigCaption}>Money </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.centeredContent}>
+            <Image
+              source={require('../../../assets/image/image/sendmoney.png')}
+              style={styles.SmallImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.caption}>Send </Text>
+            <Text style={styles.bigCaption}>Money </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.centeredContent}>
+            <Image
+              source={require('../../../assets/image/image/receive.png')}
+              style={styles.SmallImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.caption}>Receive </Text>
+            <Text style={styles.bigCaption}>Money </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.centeredContent}>
+            <Image
+              source={require('../../../assets/image/image/with.png')}
+              style={styles.SmallImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.caption}>Withdrawal </Text>
+            <Text style={styles.bigCaption}>Balance </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: wp(3) }}>
+          <Text style={styles.heading}>Recent Transaction</Text>
+          <Image
+            source={require('../../../assets/image/image/sorting.png')}
+            style={{ width: 25, height: 25 }}
+            resizeMode='contain'
+          />
+        </View>
+        <View style={{ height: 1, backgroundColor: 'white' }}></View>
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <FlatList
             data={dummyTransactions}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
           />
-    </ScrollView>
-
-        </View>
-
+        </ScrollView>
       </View>
+
+      <Modalize
+        ref={modalizeRef}
+        snapPoint={450}
+        modalHeight={450}
+        handleStyle={styles.handleStyle}
+        modalStyle={styles.modalStyle}
+      >
+        {renderModalContent()}
+      </Modalize>
+    </View>
   );
 };
 
@@ -146,7 +218,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     color: '#000',
-    paddingLeft:wp(35)
+    paddingLeft: wp(35)
   },
   background: {
     flex: 1,
@@ -415,8 +487,56 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     // flexGrow: 1.5,
-    paddingBottom:200
-  }
+    paddingBottom: 200
+  },
+  modalContent: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color:'#955fd4'
+  },
+  qrCodeTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent:'space-between',
+    
+    marginTop: 20,
+    borderWidth: 1,
+    borderColor: '#000',
+    borderRadius: 5,
+    padding: 10,
+    paddingHorizontal: 10,
+    backgroundColor: '#20182b',
+    width:'90%'
+    // maxWidth: '100%',
+  },
+  qrCodeText: {
+    fontSize: 16,
+    color: '#955fd4',
+    marginRight: 10,
+    maxWidth: 350, 
+    overflow: 'hidden', 
+  },
+  handleStyle: {
+    backgroundColor: '#ddd',
+    width: 60,
+    height: 6,
+    borderRadius: 3,
+    alignSelf: 'center',
+    marginVertical: 8,
+  },
+  modalStyle: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor:'#0e0519',
+
+  },
 });
 
 export default WalletScreenUI;
