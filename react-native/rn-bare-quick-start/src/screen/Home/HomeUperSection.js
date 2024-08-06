@@ -35,6 +35,13 @@ const HomeUpperSection = () => {
         // Additional logic for rewards
     };
 
+    const handleMyTeam = () => {
+        console.log("Rewards Pressed");
+        navigation.navigate('myTeam');
+        // Additional logic for rewards
+    };
+
+
     const handleReferPress = () => {
         console.log("Refer Pressed");
         navigation.navigate('ReferFriend')
@@ -55,17 +62,17 @@ const HomeUpperSection = () => {
                 <View style={styles.transferOptions}>
                     <View style={styles.option}>
                         <View style={styles.iconContainer}>
-<TouchableOpacity> 
-<Image source={require('../../../assets/Icon/makehelp.png')} style={styles.icon} />
+                            <TouchableOpacity>
+                                <Image source={require('../../../assets/Icon/makehelp.png')} style={styles.icon} />
 
-</TouchableOpacity>
+                            </TouchableOpacity>
                         </View>
                         <Text style={styles.optionText}>Make Help</Text>
                     </View>
                     <View style={styles.option}>
                         <View style={styles.iconContainer}>
                             <TouchableOpacity>
-                            <Image source={require('../../../assets/Icon/gdhelp.png')} style={styles.icon} />
+                                <Image source={require('../../../assets/Icon/gdhelp.png')} style={styles.icon} />
 
                             </TouchableOpacity>
                         </View>
@@ -74,7 +81,7 @@ const HomeUpperSection = () => {
                     <View style={styles.option}>
                         <View style={styles.iconContainer}>
                             <TouchableOpacity onPress={handleRewardsPress}>
-                            <Image source={require('../../../assets/Icon/rewards.png')} style={styles.icon} />
+                                <Image source={require('../../../assets/Icon/rewards.png')} style={styles.icon} />
 
                             </TouchableOpacity>
                         </View>
@@ -82,8 +89,8 @@ const HomeUpperSection = () => {
                     </View>
                     <View style={styles.option}>
                         <View style={styles.iconContainer}>
-                            <TouchableOpacity>
-                            <Image source={require('../../../assets/Icon/myteam.png')} style={styles.icon} />
+                            <TouchableOpacity onPress={handleMyTeam}>
+                                <Image source={require('../../../assets/Icon/myteam.png')} style={styles.icon} />
 
                             </TouchableOpacity>
                         </View>

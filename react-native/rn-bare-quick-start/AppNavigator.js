@@ -14,6 +14,7 @@ import WalletWithdrawal from './src/screen/wallet/withDraw';
 import { State } from 'react-native-gesture-handler';
 import QRCodeScannerScreen from './src/screen/wallet/qrCodeScanner';
 import PaymentScreen from './src/screen/wallet/PaymentScreen';
+import MyTeam from './src/screen/Home/MyTeam';
 
 
 const Stack = createStackNavigator();
@@ -86,6 +87,11 @@ const AppNavigator = () => {
       <Stack.Screen
       name='PaymentScreen'
       component={PaymentScreen}
+      options={{headerShown:false}}
+      />
+      <Stack.Screen
+      name='myTeam'
+      component={MyTeam}
       options={{headerShown:false}}
       />
     </Stack.Navigator>
