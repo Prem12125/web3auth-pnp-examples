@@ -1,4 +1,4 @@
-import React, { useRef,useEffect,useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -6,56 +6,57 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  ScrollView,
-  ToastAndroid
+  ToastAndroid,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import QRCode from 'react-native-qrcode-svg';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { Modalize } from 'react-native-modalize';
 import { getAccounts } from '../../store/loginSlice';
-import { useSelector, useDispatch } from 'react-redux';
-
+import { useSelector } from 'react-redux';
 
 const WalletScreenUI = () => {
   const navigation = useNavigation();
   const modalizeRef = useRef(null);
-  // const qrValue = 'https://example.com/deposit';
-  const [qrValue , setQrvalue] = useState('Wallet Address Not Found')
-  const { userInfo, accounts } = useSelector(state => state.login);
+  const modalizeRef1 = useRef(null);
+  const [qrValue, setQrvalue] = useState('Wallet Address Not Found');
+  const { userInfo, accounts } = useSelector((state) => state.login);
 
   useEffect(() => {
-    const init = async () => {
-    // await web3auth.init();
-     
-      handleGetAccounts();
-      setQrvalue(accounts) 
-    };
-    init();
-  }, []);
+    handleGetAccounts();
+    setQrvalue(accounts || 'Wallet Address Not Found');
+  }, [accounts]);
 
   const dummyTransactions = Array.from({ length: 3 }, (_, index) => ({
     txn_id: `TXN${index + 1}`,
-    date: "2021-07-20",
-    message: "Payment Received",
+    date: '2021-07-20',
+    message: 'Payment Received',
     amount: (index + 1) * 100,
-    time: "10:00 AM"
+    time: '10:00 AM',
   }));
 
-  const handleCopy = (content) => {
+  const handleCopy = useCallback((content) => {
     Clipboard.setString(content);
-  };
+    ToastAndroid.show('Address copied to clipboard!', ToastAndroid.SHORT);
+  }, []);
 
-  const handleGetAccounts = () => {
+  const handleGetAccounts = useCallback(() => {
     console.log('Retrieving accounts...');
-    console.log('Accounts retrieved', accounts );
-
+    console.log('Accounts retrieved', accounts);
     // dispatch(getAccounts());
-   
-  };
-  const renderItem = ({ item, index }) => (
+  }, [accounts]);
+
+  const handleWithdraw = useCallback(() => {
+    console.log('withdrawBalance Pressed');
+    navigation.navigate('withdrawBalance');
+  }, [navigation]);
+
+  const renderItem = useCallback(({ item, index }) => (
     <View style={styles.Row} key={index.toString()}>
       <View style={{ flexDirection: 'row' }}>
         <View style={styles.arrowBg}>
@@ -79,33 +80,54 @@ const WalletScreenUI = () => {
         <Text style={{ ...styles.Info, textAlign: 'right' }}>{item.time}</Text>
       </View>
     </View>
-  );
+  ), []);
+
   const truncateAddress = (address) => {
     if (address.length > 25) {
       return address.substring(0, 25) + '...';
     }
     return address;
   };
-  
-  const renderModalContent = () => (
+
+  const renderModalContent = useCallback(() => (
     <View style={styles.modalContent}>
       <Text style={styles.modalTitle}>Scan to Deposit Money</Text>
-      <QRCode
-        value={qrValue}
-        size={200}
-        backgroundColor="#20182b"
-        color="#fff"
-      />
+      <View style={styles.qrContainer}>
+        <QRCode
+          value={qrValue}
+          size={200}
+          backgroundColor="#20182b"
+          color="#f1f1f1"
+        />
+      </View>
       <View style={styles.qrCodeTextContainer}>
-        <Text style={styles.qrCodeText}>
-          {truncateAddress(qrValue)}
-        </Text>
+        <Text style={styles.qrCodeText}>{truncateAddress(qrValue)}</Text>
         <TouchableOpacity onPress={() => handleCopy(qrValue)}>
           <AntDesign name="copy1" size={24} color="#000" />
         </TouchableOpacity>
       </View>
     </View>
-  );
+  ), [qrValue]);
+
+  const renderModalContent1 = useCallback(() => (
+    <View style={styles.modalContent}>
+      <Text style={styles.modalTitle}>Payment QR Code</Text>
+      <View style={styles.qrContainer}>
+        <QRCode
+          value={qrValue}
+          size={200}
+          backgroundColor="#20182b"
+          color="#f1f1f1"
+        />
+      </View>
+      <View style={styles.qrCodeTextContainer}>
+        <Text style={styles.qrCodeText}>{truncateAddress(qrValue)}</Text>
+        <TouchableOpacity onPress={() => handleCopy(qrValue)}>
+          <AntDesign name="copy1" size={24} color="#000" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  ), [qrValue]);
 
   return (
     <View style={styles.background}>
@@ -123,12 +145,14 @@ const WalletScreenUI = () => {
 
       <View style={{ padding: wp(5), marginTop: wp(4) }}>
         <View style={styles.cards}>
-          <View style={{
-            backgroundColor: '#955fd4',
-            padding: 10,
-            borderRadius: 17,
-            marginBottom: 5,
-          }}>
+          <View
+            style={{
+              backgroundColor: '#955fd4',
+              padding: 10,
+              borderRadius: 17,
+              marginBottom: 5,
+            }}
+          >
             <Image
               source={require('../../../assets/image/image/wallet.png')}
               style={styles.walletImage}
@@ -141,8 +165,18 @@ const WalletScreenUI = () => {
           </View>
         </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: wp(5) }}>
-          <TouchableOpacity style={styles.centeredContent} onPress={() => modalizeRef.current?.open()}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingVertical: wp(5),
+          }}
+        >
+          <TouchableOpacity
+            style={styles.centeredContent}
+            onPress={() => modalizeRef.current?.open()}
+          >
             <Image
               source={require('../../../assets/image/image/purple-wallet.png')}
               style={styles.SmallImage}
@@ -152,7 +186,10 @@ const WalletScreenUI = () => {
             <Text style={styles.bigCaption}>Money </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.centeredContent}>
+          <TouchableOpacity
+            style={styles.centeredContent}
+            onPress={() => navigation.navigate('QRCodeScannerScreen')}
+          >
             <Image
               source={require('../../../assets/image/image/sendmoney.png')}
               style={styles.SmallImage}
@@ -162,7 +199,10 @@ const WalletScreenUI = () => {
             <Text style={styles.bigCaption}>Money </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.centeredContent}>
+          <TouchableOpacity
+            style={styles.centeredContent}
+            onPress={() => modalizeRef1.current?.open()}
+          >
             <Image
               source={require('../../../assets/image/image/receive.png')}
               style={styles.SmallImage}
@@ -172,7 +212,7 @@ const WalletScreenUI = () => {
             <Text style={styles.bigCaption}>Money </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.centeredContent}>
+          <TouchableOpacity style={styles.centeredContent} onPress={handleWithdraw}>
             <Image
               source={require('../../../assets/image/image/with.png')}
               style={styles.SmallImage}
@@ -183,22 +223,39 @@ const WalletScreenUI = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: wp(3) }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginVertical: wp(3),
+          }}
+        >
           <Text style={styles.heading}>Recent Transaction</Text>
           <Image
             source={require('../../../assets/image/image/sorting.png')}
             style={{ width: 25, height: 25 }}
-            resizeMode='contain'
+            resizeMode="contain"
           />
         </View>
         <View style={{ height: 1, backgroundColor: 'white' }}></View>
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          <FlatList
-            data={dummyTransactions}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        </ScrollView>
+        <FlatList
+          data={dummyTransactions}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          // ListHeaderComponent={() => (
+          //   <View>
+          //     <Text style={styles.heading}>Recent Transaction</Text>
+          //     <Image
+          //       source={require('../../../assets/image/image/sorting.png')}
+          //       style={{ width: 25, height: 25 }}
+          //       resizeMode="contain"
+          //     />
+          //   </View>
+          // )}
+          ListFooterComponent={() => (
+            <View style={{ height: 1, backgroundColor: 'white' }}></View>
+          )}
+        />
       </View>
 
       <Modalize
@@ -210,6 +267,15 @@ const WalletScreenUI = () => {
       >
         {renderModalContent()}
       </Modalize>
+      <Modalize
+        ref={modalizeRef1}
+        snapPoint={450}
+        modalHeight={450}
+        handleStyle={styles.handleStyle}
+        modalStyle={styles.modalStyle}
+      >
+        {renderModalContent1()}
+      </Modalize>
     </View>
   );
 };
@@ -219,11 +285,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     color: '#000',
-    paddingLeft: wp(35)
+    paddingLeft: wp(35),
   },
   background: {
     flex: 1,
-    backgroundColor: '#0e0519'
+    backgroundColor: '#0e0519',
   },
   circularImageContainer: {
     width: 50,
@@ -309,7 +375,7 @@ const styles = StyleSheet.create({
     marginVertical: wp(2),
     backgroundColor: '#fff',
     borderRadius: 10,
-    paddingHorizontal: wp(5)
+    paddingHorizontal: wp(5),
   },
   centeredContent: {
     alignItems: 'center',
@@ -373,7 +439,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   amount: {
-    color: '#fff'
+    color: '#fff',
   },
   horiLine: {
     height: 2,
@@ -423,7 +489,7 @@ const styles = StyleSheet.create({
     paddingVertical: wp(3),
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: wp(.2),
+    borderBottomWidth: wp(0.2),
     borderBottomColor: '#9286da',
   },
   ModeTextView: {
@@ -433,7 +499,7 @@ const styles = StyleSheet.create({
   cancelText: {
     color: '#9286DA',
     fontSize: wp(4),
-    fontWeight: '500'
+    fontWeight: '500',
   },
   ModeText: {
     fontSize: 18,
@@ -447,7 +513,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: hp(2),
     paddingHorizontal: wp(3),
-    marginVertical: wp(2)
+    marginVertical: wp(2),
   },
   recactive: {
     backgroundColor: '#d9d6f3',
@@ -484,11 +550,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
     fontWeight: 'bold',
-    color: "#7e7e7f"
+    color: '#7e7e7f',
   },
   scrollViewContent: {
-    // flexGrow: 1.5,
-    paddingBottom: 200
+    paddingBottom: 200,
   },
   modalContent: {
     flex: 1,
@@ -500,29 +565,32 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
-    color:'#955fd4'
+    color: '#955fd4',
+  },
+  qrContainer: {
+    backgroundColor: '#f1f1f1',
+    padding: 20,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   qrCodeTextContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between',
-    
+    justifyContent: 'space-between',
     marginTop: 20,
-    borderWidth: 1,
-    borderColor: '#000',
-    borderRadius: 5,
+    borderRadius: 10,
     padding: 10,
     paddingHorizontal: 10,
-    backgroundColor: '#E7E2F6',
-    width:'90%'
-    // maxWidth: '100%',
+    backgroundColor: '#f1f1f1',
+    width: '90%',
   },
   qrCodeText: {
     fontSize: 16,
     color: '#955fd4',
     marginRight: 10,
-    maxWidth: 350, 
-    overflow: 'hidden', 
+    maxWidth: 350,
+    overflow: 'hidden',
   },
   handleStyle: {
     backgroundColor: '#ddd',
@@ -535,8 +603,7 @@ const styles = StyleSheet.create({
   modalStyle: {
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    backgroundColor:'#E7E2F6',
-
+    backgroundColor: '#E7E2F6',
   },
 });
 

@@ -55,25 +55,37 @@ const HomeUpperSection = () => {
                 <View style={styles.transferOptions}>
                     <View style={styles.option}>
                         <View style={styles.iconContainer}>
-                            <Image source={require('../../../assets/Icon/makehelp.png')} style={styles.icon} />
+<TouchableOpacity> 
+<Image source={require('../../../assets/Icon/makehelp.png')} style={styles.icon} />
+
+</TouchableOpacity>
                         </View>
                         <Text style={styles.optionText}>Make Help</Text>
                     </View>
                     <View style={styles.option}>
                         <View style={styles.iconContainer}>
+                            <TouchableOpacity>
                             <Image source={require('../../../assets/Icon/gdhelp.png')} style={styles.icon} />
+
+                            </TouchableOpacity>
                         </View>
                         <Text style={styles.optionText}>GD Help</Text>
                     </View>
                     <View style={styles.option}>
                         <View style={styles.iconContainer}>
+                            <TouchableOpacity onPress={handleRewardsPress}>
                             <Image source={require('../../../assets/Icon/rewards.png')} style={styles.icon} />
+
+                            </TouchableOpacity>
                         </View>
                         <Text style={styles.optionText}>Rewards</Text>
                     </View>
                     <View style={styles.option}>
                         <View style={styles.iconContainer}>
+                            <TouchableOpacity>
                             <Image source={require('../../../assets/Icon/myteam.png')} style={styles.icon} />
+
+                            </TouchableOpacity>
                         </View>
                         <Text style={styles.optionText}>My Team</Text>
                     </View>

@@ -10,6 +10,10 @@ import ConsoleScreen from './src/screen/ConsoleScreen';
 import UserProfile from './src/user/UserProfile';
 import WalletScreenUI from './src/screen/wallet/walletScreen';
 import ReferFriend from './src/screen/refer/ReferFriend';
+import WalletWithdrawal from './src/screen/wallet/withDraw';
+import { State } from 'react-native-gesture-handler';
+import QRCodeScannerScreen from './src/screen/wallet/qrCodeScanner';
+import PaymentScreen from './src/screen/wallet/PaymentScreen';
 
 
 const Stack = createStackNavigator();
@@ -63,9 +67,25 @@ const AppNavigator = () => {
       
       }} 
       /> 
+      
       <Stack.Screen 
       name='ReferFriend'
       component={ReferFriend}
+      options={{headerShown:false}}
+      />
+      < Stack.Screen
+      name='withdrawBalance'
+      component={WalletWithdrawal}
+      options={{headerShown:false}}
+      />
+      <Stack.Screen
+      name="QRCodeScannerScreen"
+      component={QRCodeScannerScreen}
+      options={{headerShown:false}}
+      />
+      <Stack.Screen
+      name='PaymentScreen'
+      component={PaymentScreen}
       options={{headerShown:false}}
       />
     </Stack.Navigator>

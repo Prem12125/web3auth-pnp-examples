@@ -15,6 +15,16 @@
 	<key>CFBundleName</key>
 	<!-- <string>$(PRODUCT_NAME)</string> -->
 	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera for scanning QR codes.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to select images.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need access to your microphone for voice features.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app requires access to contacts to function properly.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need access to your location for providing personalized services.</string>
 	<key>NSContactsUsageDescription</key>
     <string>This app requires access to the contacts to function properly.</string>
 	<key>CFBundlePackageType</key>
