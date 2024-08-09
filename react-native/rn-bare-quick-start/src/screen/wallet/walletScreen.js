@@ -18,7 +18,7 @@ import { useNavigation } from '@react-navigation/native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { Modalize } from 'react-native-modalize';
 import { getAccounts } from '../../store/loginSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const WalletScreenUI = () => {
   const navigation = useNavigation();
@@ -26,7 +26,7 @@ const WalletScreenUI = () => {
   const modalizeRef1 = useRef(null);
   const [qrValue, setQrvalue] = useState('Wallet Address Not Found');
   const { userInfo, accounts } = useSelector((state) => state.login);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     handleGetAccounts();
     setQrvalue(accounts || 'Wallet Address Not Found');
@@ -48,7 +48,7 @@ const WalletScreenUI = () => {
   const handleGetAccounts = useCallback(() => {
     console.log('Retrieving accounts...');
     console.log('Accounts retrieved', accounts);
-    // dispatch(getAccounts());
+    dispatch(getAccounts());
   }, [accounts]);
 
   const handleWithdraw = useCallback(() => {
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
   },
   bottomDivider: {
     borderStyle: 'solid',
-    borderColor: '#00000025',
+    borderColor: '#000',
     borderBottomWidth: 0.5,
     marginVertical: wp(1.5),
   },

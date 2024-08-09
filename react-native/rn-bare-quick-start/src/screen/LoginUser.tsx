@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, Image, TextInput, TouchableOpacity, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, StatusBar } from 'react-native';
 import { ethers } from 'ethers';
 import * as WebBrowser from '@toruslabs/react-native-web-browser';
 import EncryptedStorage from 'react-native-encrypted-storage';
@@ -48,7 +48,7 @@ const LoginScreen = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [console1, setConsole] = useState('');
   const [email, setEmail] = useState('');
-
+  const [walletAddress, setWalletAddress] = useState('');
   const clearWeb3AuthCache = async () => {
     try {
       await EncryptedStorage.clear();
@@ -72,7 +72,9 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (loggedIn) {
+      console.log(`Wallet Address prem : ${walletAddress}`);
       navigation.navigate('Main'as never);
+      // navigation.navigate('RegisterScreen' as never);
     }
   }, [loggedIn, navigation]);
 
@@ -97,8 +99,14 @@ const LoginScreen = () => {
 
       if (web3auth.privKey) {
         await ethereumPrivateKeyProvider.setupProvider(web3auth.privKey);
+
+        // Get the wallet address
+        const wallet = new ethers.Wallet(web3auth.privKey);
+        const address = wallet.address;
+        setWalletAddress(address);
+
         setLoggedIn(true);
-        dispatch(loginSuccess({ userInfo: web3auth.userInfo(), privateKey: web3auth.privKey }));
+        dispatch(loginSuccess({ userInfo: web3auth.userInfo(), privateKey: web3auth.privKey, address }));
         setWeb3Auth(web3auth);
       }
     } catch (e) {
@@ -119,8 +127,13 @@ const LoginScreen = () => {
 
       if (web3auth.privKey) {
         await ethereumPrivateKeyProvider.setupProvider(web3auth.privKey);
+
+        // Get the wallet address
+        const wallet = new ethers.Wallet(web3auth.privKey);
+        const address = wallet.address;
+        setWalletAddress(address);
         setLoggedIn(true);
-        dispatch(loginSuccess({ userInfo: web3auth.userInfo(), privateKey: web3auth.privKey }));
+        dispatch(loginSuccess({ userInfo: web3auth.userInfo(), privateKey: web3auth.privKey, address }));
         setWeb3Auth(web3auth);
       }
     } catch (e) {
@@ -140,8 +153,14 @@ const LoginScreen = () => {
 
       if (web3auth.privKey) {
         await ethereumPrivateKeyProvider.setupProvider(web3auth.privKey);
+
+        // Get the wallet address
+        const wallet = new ethers.Wallet(web3auth.privKey);
+        const address = wallet.address;
+        setWalletAddress(address);
+
         setLoggedIn(true);
-        dispatch(loginSuccess({ userInfo: web3auth.userInfo(), privateKey: web3auth.privKey }));
+        dispatch(loginSuccess({ userInfo: web3auth.userInfo(), privateKey: web3auth.privKey, address }));
         setWeb3Auth(web3auth);
       }
     } catch (e) {
@@ -161,8 +180,14 @@ const LoginScreen = () => {
 
       if (web3auth.privKey) {
         await ethereumPrivateKeyProvider.setupProvider(web3auth.privKey);
+
+        // Get the wallet address
+        const wallet = new ethers.Wallet(web3auth.privKey);
+        const address = wallet.address;
+        setWalletAddress(address);
+
         setLoggedIn(true);
-        dispatch(loginSuccess({ userInfo: web3auth.userInfo(), privateKey: web3auth.privKey }));
+        dispatch(loginSuccess({ userInfo: web3auth.userInfo(), privateKey: web3auth.privKey, address }));
         setWeb3Auth(web3auth);
       }
     } catch (e) {

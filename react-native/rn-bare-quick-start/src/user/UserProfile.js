@@ -64,8 +64,9 @@ const UserProfile = () => {
   };
 
   const handleLogout = async () => {
-    dispatch(logoutSuccess());
     navigation.replace('Splash');
+
+    dispatch(logoutSuccess());
     
     if (!web3auth.ready) {
       console.log('Web3Auth not initialized');

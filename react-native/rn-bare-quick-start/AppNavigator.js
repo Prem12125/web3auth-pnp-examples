@@ -15,6 +15,9 @@ import { State } from 'react-native-gesture-handler';
 import QRCodeScannerScreen from './src/screen/wallet/qrCodeScanner';
 import PaymentScreen from './src/screen/wallet/PaymentScreen';
 import MyTeam from './src/screen/Home/MyTeam';
+import RegisterScreen from './src/user/RegisterScreen';
+import HelpScreen from './src/screen/Home/MakeHelp';
+import GDHelpScreen from './src/screen/Home/GdHelp';
 
 
 const Stack = createStackNavigator();
@@ -92,6 +95,22 @@ const AppNavigator = () => {
       <Stack.Screen
       name='myTeam'
       component={MyTeam}
+      options={{headerShown:false}}
+      />
+      <Stack.Screen
+      name='RegisterScreen'
+      component={RegisterScreen}
+      options={{headerShown:false}}
+      />
+      <Stack.Screen
+      name='HelpScreen'
+      component={HelpScreen}
+      options={{headerShown:false}}
+      
+      />
+      <Stack.Screen
+      name='GDHelpScreen'
+      component={GDHelpScreen}
       options={{headerShown:false}}
       />
     </Stack.Navigator>

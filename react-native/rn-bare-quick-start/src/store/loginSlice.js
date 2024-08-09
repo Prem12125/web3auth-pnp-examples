@@ -109,6 +109,7 @@ const loginSlice = createSlice({
       state.privateKey = action.payload.privateKey;
       AsyncStorage.setItem('loginNewUser', 'true');
       EncryptedStorage.setItem('privateKey', action.payload.privateKey);
+      EncryptedStorage.setItem('walletAddress', action.payload.address); 
     },
     logoutSuccess: (state) => {
       state.loggedIn = false;
@@ -119,6 +120,8 @@ const loginSlice = createSlice({
       state.privateKey = null;
       AsyncStorage.removeItem('loginNewUser');
       EncryptedStorage.removeItem('privateKey');
+      EncryptedStorage.removeItem('walletAddress'); 
+      
     },
   },
   extraReducers: (builder) => {

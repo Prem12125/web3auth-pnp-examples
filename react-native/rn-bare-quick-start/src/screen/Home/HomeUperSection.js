@@ -35,6 +35,19 @@ const HomeUpperSection = () => {
         // Additional logic for rewards
     };
 
+    const handleMakeHelp = () => {
+        console.log("Rewards Pressed");
+        navigation.navigate('HelpScreen');
+        // Additional logic for rewards
+    };
+
+    const handleGdHelp = () => {
+        console.log("Rewards Pressed");
+        navigation.navigate('GDHelpScreen');
+        // Additional logic for rewards
+    };
+
+
     const handleMyTeam = () => {
         console.log("Rewards Pressed");
         navigation.navigate('myTeam');
@@ -62,7 +75,7 @@ const HomeUpperSection = () => {
                 <View style={styles.transferOptions}>
                     <View style={styles.option}>
                         <View style={styles.iconContainer}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={handleMakeHelp}>
                                 <Image source={require('../../../assets/Icon/makehelp.png')} style={styles.icon} />
 
                             </TouchableOpacity>
@@ -71,7 +84,7 @@ const HomeUpperSection = () => {
                     </View>
                     <View style={styles.option}>
                         <View style={styles.iconContainer}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={handleGdHelp}>
                                 <Image source={require('../../../assets/Icon/gdhelp.png')} style={styles.icon} />
 
                             </TouchableOpacity>
