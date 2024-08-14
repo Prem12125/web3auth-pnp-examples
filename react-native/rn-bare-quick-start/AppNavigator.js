@@ -18,9 +18,8 @@ import MyTeam from './src/screen/Home/MyTeam';
 import RegisterScreen from './src/user/RegisterScreen';
 import HelpScreen from './src/screen/Home/MakeHelp';
 import GDHelpScreen from './src/screen/Home/GdHelp';
-import LineChartExample from './src/screen/LineGraph';
-import LineChartExample1 from './src/screen/LineGraph1';
-import WalletConnectComponent from './src/screen/wallectConnect';
+// import LineChartExample from './src/screen/LineGraph';
+// import LineChartExample1 from './src/screen/LineGraph1';
 
 
 const Stack = createStackNavigator();
@@ -65,11 +64,11 @@ const AppNavigator = () => {
         component={BottomTabNavigator} 
         options={{ headerShown: false }} 
       />
-      <Stack.Screen
+      {/* <Stack.Screen
       name='WalletConnectComponent'
       component={WalletConnectComponent}
       
-      />
+      /> */}
 
       <Stack.Screen 
       name='WalletScreenUI'
@@ -77,14 +76,14 @@ const AppNavigator = () => {
       options={{ headerShown: false
       }} 
       /> 
-      <Stack.Screen
+      {/* <Stack.Screen
       name='LineChartExample'
       component={LineChartExample}
       />
       <Stack.Screen
       name='LineChartExample1'
       component={LineChartExample1}
-      />
+      /> */}
       <Stack.Screen 
       name='ReferFriend'
       component={ReferFriend}
