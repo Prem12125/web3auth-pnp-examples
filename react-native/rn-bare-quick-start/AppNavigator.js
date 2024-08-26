@@ -81,10 +81,7 @@ const AppNavigator = () => {
       name='LineChartExample'
       component={LineChartExample}
       />
-      <Stack.Screen
-      name='LineChartExample1'
-      component={LineChartExample1}
-      /> */}
+     */}
       <Stack.Screen 
       name='ReferFriend'
       component={ReferFriend}
