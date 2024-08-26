@@ -6,6 +6,7 @@ import ResumeFormScreen from './src/screen/ResumeFormScreen';
 import UserProfile from './src/user/UserProfile';
 import WalletScreenUI from './src/screen/wallet/walletScreen';
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import MyDirects from './src/screen/myDirects/MyDirects';
 
 const Tab = createBottomTabNavigator();
 
@@ -65,7 +66,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                     ? isFocused
                       ? 'home'
                       : 'home-outline'
-                    : route.name === 'Plan'
+                    : route.name === 'My Directs'
                       ? isFocused
                         ? 'document'
                         : 'document-outline'
@@ -93,7 +94,7 @@ const BottomTabNavigator = () => {
   return (
     <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
       <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Plan" component={ResumeFormScreen} />
+      <Tab.Screen name="My Directs" component={MyDirects} options={{headerShown:false}}/>
       <Tab.Screen name="Wallet" component={WalletScreenUI} options={{ headerShown: false }} />
       <Tab.Screen name="Profile" component={UserProfile} options={{ headerShown: false }} />
     </Tab.Navigator>

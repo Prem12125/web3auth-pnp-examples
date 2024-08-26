@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { fetchUserTeam } from '../../Api/HandleApi';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -9,77 +10,27 @@ import {
 
 const { width } = Dimensions.get('window');
 
-const dummyData = [
-  {
-    txnHash: '0x1234...abcd',
-    userAddress: '0x9876...wxyz',
-    userId: 'User001',
-    totalDirectBusiness: 500,
-    totalTeamBusiness: 2000,
-    level: 1,
-  },
-  {
-    txnHash: '0x5678...efgh',
-    userAddress: '0x4321...lmno',
-    userId: 'User002',
-    totalDirectBusiness: 300,
-    totalTeamBusiness: 1500,
-    level: 2,
-  },
-  {
-    txnHash: '0x9101...ijkl',
-    userAddress: '0x1357...pqrs',
-    userId: 'User003',
-    totalDirectBusiness: 700,
-    totalTeamBusiness: 3000,
-    level: 3,
-  },
-  {
-    txnHash: '0x1357...qrst',
-    userAddress: '0x2468...abcd',
-    userId: 'User004',
-    totalDirectBusiness: 600,
-    totalTeamBusiness: 2500,
-    level: 4,
-  },
-  {
-    txnHash: '0x2468...ijkl',
-    userAddress: '0x3691...mnop',
-    userId: 'User005',
-    totalDirectBusiness: 800,
-    totalTeamBusiness: 3500,
-    level: 1,
-  },
-  {
-    txnHash: '0x3691...mnop',
-    userAddress: '0x4821...qrst',
-    userId: 'User006',
-    totalDirectBusiness: 400,
-    totalTeamBusiness: 1800,
-    level: 2,
-  },
-  {
-    txnHash: '0x4821...qrst',
-    userAddress: '0x5943...uvwx',
-    userId: 'User007',
-    totalDirectBusiness: 900,
-    totalTeamBusiness: 3700,
-    level: 3,
-  },
-  {
-    txnHash: '0x5943...uvwx',
-    userAddress: '0x6064...yzab',
-    userId: 'User008',
-    totalDirectBusiness: 500,
-    totalTeamBusiness: 2200,
-    level: 4,
-  },
-];
-
 const MyTeam = ({ navigation }) => {
+  const [teamData, setTeamData] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState(1);
 
-  const filteredData = dummyData.filter((item) => item.level === selectedLevel);
+  useEffect(() => {
+    const getUserDetails = async () => {
+      const details = await fetchUserTeam("0xB3941d0B6499909CE17456597BDd535B65eF69D3");
+      if (details && details.data) {
+        setTeamData(details.data);
+      }
+    };
+
+    getUserDetails();
+  }, []);
+
+  const filteredData = teamData.filter((item) => item.level === selectedLevel);
+
+  const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+  };
 
   return (
     <View style={styles.container}>
@@ -91,8 +42,8 @@ const MyTeam = ({ navigation }) => {
         <View style={styles.rightNavSpace} />
       </View>
 
-      <View style={styles.tabBar}>
-        {[1, 2, 3, 4].map((level) => (
+      <ScrollView horizontal={true} style={styles.tabBar} showsHorizontalScrollIndicator={false}>
+        {[1, 2, 3, 4, 5, 6].map((level) => (
           <TouchableOpacity
             key={level}
             onPress={() => setSelectedLevel(level)}
@@ -111,11 +62,11 @@ const MyTeam = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView>
 
       <FlatList
         data={filteredData}
-        keyExtractor={(item) => item.txnHash}
+        keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <View style={styles.card}>
             <View style={styles.iconContainer}>
@@ -125,23 +76,23 @@ const MyTeam = ({ navigation }) => {
               <Text style={styles.cardTitle}>{item.userId}</Text>
               <View style={styles.cardTextRow}>
                 <Icon name="key-variant" size={16} color="#6E57D4" />
-                <Text style={styles.labelText}> Txn Hash: </Text>
-                <Text style={styles.hashText}>{item.txnHash}</Text>
+                <Text style={styles.labelText}>Txn Hash: </Text>
+                <Text style={styles.hashText}>{truncateText(item.txHash, 24)}</Text>
               </View>
               <View style={styles.cardTextRow}>
                 <Icon name="wallet" size={16} color="#6E57D4" />
-                <Text style={styles.labelText}> User Address: </Text>
-                <Text style={styles.infoText}>{item.userAddress}</Text>
+                <Text style={styles.labelText}>User Address: </Text>
+                <Text style={styles.infoText}>{truncateText(item.sender, 20)}</Text>
               </View>
               <View style={styles.cardTextRow}>
                 <Icon name="cash" size={16} color="#6E57D4" />
-                <Text style={styles.labelText}> Direct Business: </Text>
-                <Text style={styles.infoText}>${item.totalDirectBusiness}</Text>
+                <Text style={styles.labelText}>Direct Business: </Text>
+                <Text style={styles.infoText}>${item.amount}</Text>
               </View>
               <View style={styles.cardTextRow}>
                 <Icon name="account-group" size={16} color="#6E57D4" />
-                <Text style={styles.labelText}> Team Business: </Text>
-                <Text style={styles.infoText}>${item.totalTeamBusiness}</Text>
+                <Text style={styles.labelText}>Team Business: </Text>
+                <Text style={styles.infoText}>${item.income}</Text>
               </View>
             </View>
           </View>
@@ -180,15 +131,17 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
     backgroundColor: '#22162A',
     paddingVertical: 10,
     marginBottom: 15,
+    maxHeight: 70, 
+    minHeight:70
   },
   tabButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingVertical: 15,
+    paddingHorizontal: 20,  
     borderRadius: 5,
+    marginHorizontal: 5,
   },
   activeTabButton: {
     backgroundColor: '#6E57D4',

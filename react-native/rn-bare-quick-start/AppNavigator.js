@@ -18,6 +18,7 @@ import MyTeam from './src/screen/Home/MyTeam';
 import RegisterScreen from './src/user/RegisterScreen';
 import HelpScreen from './src/screen/Home/MakeHelp';
 import GDHelpScreen from './src/screen/Home/GdHelp';
+import TeamTree from './src/screen/myDirects/TeamTree';
 // import LineChartExample from './src/screen/LineGraph';
 // import LineChartExample1 from './src/screen/LineGraph1';
 
@@ -117,6 +118,13 @@ const AppNavigator = () => {
       <Stack.Screen
       name='HelpScreen'
       component={HelpScreen}
+      options={{headerShown:false}}
+      
+      />
+
+      <Stack.Screen
+      name='TeamTree'
+      component={TeamTree}
       options={{headerShown:false}}
       
       />
