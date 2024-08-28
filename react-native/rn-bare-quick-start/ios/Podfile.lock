@@ -1100,7 +1100,19 @@ PODS:
   - RNQrGenerator (1.4.0):
     - React
     - ZXingObjC
-  - RNReanimated (3.14.0):
+  - RNReanimated (3.15.0):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
+    - RNReanimated/reanimated (= 3.15.0)
+    - RNReanimated/worklets (= 3.15.0)
+  - RNReanimated/reanimated (3.15.0):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
+  - RNReanimated/worklets (3.15.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1413,7 +1425,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 67d3f1f69d4d0c98d6e83f4229e3bbf997d1dc72
   RNPermissions: 294531ede5a64d1528463e88fffef05675842042
   RNQrGenerator: 1676221c08bfabec978242989c733810dad20959
-  RNReanimated: f1ce27e7d23e6f941024b862ad76a7fdae93dea9
+  RNReanimated: ba95f6d26ca4b8a8f7f2b15f62a3513750762f6b
   RNScreens: e842cdccb23c0a084bd6307f6fa83fd1c1738029
   RNSVG: cb24fb322de8c1ebf59904e7aca0447bb8dbed5a
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
@@ -1421,6 +1433,6 @@ SPEC CHECKSUMS:
   Yoga: 57d2ffe418d024d56f8b0047f335c677e4c4d9ac
   ZXingObjC: 8898711ab495761b2dbbdec76d90164a6d7e14c5
 
-PODFILE CHECKSUM: 7470ab802afc7869f4ea269f1247b5a6ad19b1c4
+PODFILE CHECKSUM: 91c6a0d1398f0ba3e4e4bfc710dba8391c297cce
 
 COCOAPODS: 1.15.2
